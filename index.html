@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="DoneRight – Lebanon's first vetted marketplace connecting trusted freelancers to families. Background-checked, ID-verified, reference-approved." />
-  <title>DoneRight — Trust. Click. Done.</title>
+  <title>DoneRight | Trust. Click. Done.</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
@@ -180,7 +180,7 @@
     .hero-pill strong { color: var(--teal); font-weight: 800; }
 
     /* ── TRUST BAR ────────────────────────────────── */
-    .trust { padding: 44px 32px; background: #fff; }
+    .trust { padding: 44px 32px; background: var(--bg-light); }
     .trust-inner { max-width: 1100px; margin: 0 auto; }
     .trust-lbl {
       text-align: center; font-size: 16px; font-weight: 800;
@@ -214,7 +214,7 @@
     .sec { padding: 64px 32px; }
     .sec-inner { max-width: 1100px; margin: 0 auto; }
     .sec-label { font-size: 16px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 10px; text-align: center; }
-    .sec-title { font-size: clamp(28px, 4vw, 48px); font-weight: 800; color: var(--text-dark); line-height: 1.15; margin-bottom: 14px; text-align: center; }
+    .sec-title { font-size: clamp(28px, 4vw, 48px); font-weight: 800; color: var(--text-dark); line-height: 1.15; margin-bottom: 36px; text-align: center; }
     .sec-sub { font-size: 17px; color: var(--text-mid); font-weight: 500; max-width: 540px; line-height: 1.75; margin-bottom: 36px; }
 
     /* ── SERVICES ─────────────────────────────────── */
@@ -308,8 +308,11 @@
     .path-card.fam::after { background: linear-gradient(90deg, var(--gold), #ffd080); }
     .path-card:hover { box-shadow: 0 12px 40px rgba(180,140,100,.15); transform: translateY(-5px); }
 
+    .path-header {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 20px;
+    }
     .path-icon-wrap {
-      width: 64px; height: 64px; border-radius: 18px; margin-bottom: 20px;
+      width: 64px; height: 64px; border-radius: 18px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
     }
     .path-card.pro .path-icon-wrap { background: rgba(8,145,178,.15); }
@@ -319,9 +322,8 @@
     .path-card.fam .path-icon-wrap .ic { color: var(--gold); }
 
     .path-tag {
-      display: block; padding: 12px 24px; border-radius: 28px;
-      font-size: 20px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 14px;
-      text-align: center;
+      display: inline-block; padding: 10px 20px; border-radius: 28px;
+      font-size: 18px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
     }
     .path-card.pro .path-tag { background: rgba(8,145,178,.18); color: var(--teal); }
     .path-card.fam .path-tag { background: rgba(255,179,71,.18); color: var(--gold); }
@@ -622,9 +624,9 @@
 <section class="trust">
   <div class="trust-inner">
     <p class="trust-lbl">
-      <span class="en-i">Our Vetting Standards</span>
-      <span class="fr-i">Nos Standards de Vérification</span>
-      <span class="ar-i">معايير التحقق لدينا</span>
+      <span class="en-i">DoneRight Vetting Standards</span>
+      <span class="fr-i">Standards de Vérification DoneRight</span>
+      <span class="ar-i">معايير التحقق في DoneRight</span>
     </p>
     <div class="trust-grid">
       <div class="trust-card reveal">
@@ -654,17 +656,12 @@
 <!-- ══ VETTING PROCESS ══════════════════════════════ -->
 <section class="sec">
   <div class="sec-inner">
-    <p class="sec-label"><span class="en-i">How We Vet</span><span class="fr-i">Notre Processus</span><span class="ar-i">كيف نتحقق</span></p>
+    <p class="sec-label"><span class="en-i">The DoneRight Vetting Process</span><span class="fr-i">Le Processus de Vérification DoneRight</span><span class="ar-i">عملية التحقق في DoneRight</span></p>
     <h2 class="sec-title reveal">
-      <span class="en">7 Steps Before They<br>Reach Your Door.</span>
-      <span class="fr">7 Étapes Avant d'Arriver<br>à Votre Porte.</span>
-      <span class="ar">7 خطوات قبل أن<br>يصلوا إلى بابك.</span>
+      <span class="en">7 Steps Before Any Freelancer<br>Reaches Your Door.</span>
+      <span class="fr">7 Étapes Avant Qu'un Freelancer<br>Arrive à Votre Porte.</span>
+      <span class="ar">7 خطوات قبل أن يصل أي<br>مستقل إلى بابك.</span>
     </h2>
-    <p class="sec-sub reveal">
-      <span class="en">Every freelancer on DoneRight goes through our thorough 7-step verification before serving your family — no shortcuts.</span>
-      <span class="fr">Chaque freelancer sur DoneRight passe notre vérification approfondie en 7 étapes avant de servir votre famille — sans raccourcis.</span>
-      <span class="ar">كل مستقل على DoneRight يمر بعملية التحقق الشاملة في 7 خطوات قبل خدمة عائلتك — بدون اختصارات.</span>
-    </p>
     <div class="steps-wrap" id="stepsWrap">
       <svg class="steps-line" id="stepsLine">
         <defs>
@@ -797,7 +794,7 @@
         <div class="srv-icon-wrap" style="background:#F0F4FF;"><svg class="ic" style="color:#4A6FA5"><use href="#i-pulse"/></svg></div>
         <div>
           <div class="srv-name"><span class="en-i">Home-Based Therapists</span><span class="fr-i">Thérapeutes à Domicile</span><span class="ar-i">معالجون منزليون</span></div>
-          <div class="srv-desc"><span class="en-i">Physical therapy, speech therapy, motor skills — licensed specialists at your door</span><span class="fr-i">Kinésithérapie, orthophonie, motricité — des spécialistes à domicile</span><span class="ar-i">علاج طبيعي، نطق، مهارات حركية — متخصصون مرخصون عند بابك</span></div>
+          <div class="srv-desc"><span class="en-i">Physical therapy, speech therapy, motor skills. Licensed specialists at your door</span><span class="fr-i">Kinésithérapie, orthophonie, motricité. Des spécialistes à domicile</span><span class="ar-i">علاج طبيعي، نطق، مهارات حركية. متخصصون مرخصون عند بابك</span></div>
         </div>
       </div>
       <div class="srv-card reveal">
@@ -823,9 +820,9 @@
         <span class="ar">أيهما أنت؟</span>
       </h2>
       <p class="sec-sub reveal">
-        <span class="en">Join our founding waitlist. We're building this for Lebanon — tell us who you are and be among the first.</span>
-        <span class="fr">Rejoignez notre liste fondatrice. Nous construisons ceci pour le Liban — dites-nous qui vous êtes et soyez parmi les premiers.</span>
-        <span class="ar">انضم إلى قائمة الانتظار التأسيسية. نحن نبني هذا للبنان — أخبرنا من أنت وكن من الأوائل.</span>
+        <span class="en">Join the founding waitlist. DoneRight is building this for Lebanon. Share who you are and be among the first.</span>
+        <span class="fr">Rejoignez la liste fondatrice. DoneRight construit ceci pour le Liban. Partagez qui vous êtes et soyez parmi les premiers.</span>
+        <span class="ar">انضم إلى قائمة الانتظار التأسيسية. DoneRight يبني هذا للبنان. شارك من أنت وكن من الأوائل.</span>
       </p>
     </div>
 
@@ -833,11 +830,13 @@
 
       <!-- FREELANCER PATH -->
       <div class="path-card pro reveal">
-        <div class="path-icon-wrap"><svg class="ic"><use href="#i-briefcase"/></svg></div>
-        <div class="path-tag">
-          <span class="en-i">For Freelancers</span>
-          <span class="fr-i">Pour les Freelancers</span>
-          <span class="ar-i">للمستقلين</span>
+        <div class="path-header">
+          <div class="path-icon-wrap"><svg class="ic"><use href="#i-briefcase"/></svg></div>
+          <div class="path-tag">
+            <span class="en-i">For Freelancers</span>
+            <span class="fr-i">Pour les Freelancers</span>
+            <span class="ar-i">للمستقلين</span>
+          </div>
         </div>
         <div class="path-title">
           <span class="en-i">Get Discovered & Grow</span>
@@ -845,9 +844,9 @@
           <span class="ar-i">انطلق وزد دخلك</span>
         </div>
         <p class="path-sub">
-          <span class="en-i">Build a verified profile, reach families who need you, and grow your income — on your terms.</span>
-          <span class="fr-i">Créez un profil vérifié, atteignez les familles qui ont besoin de vous, et augmentez vos revenus — à vos conditions.</span>
-          <span class="ar-i">ابنِ ملفاً موثّقاً، واوصل لعائلات تحتاجك، وزد دخلك — بشروطك.</span>
+          <span class="en-i">Build a verified profile, reach families who need you, and grow your income. On your terms.</span>
+          <span class="fr-i">Créez un profil vérifié, atteignez les familles qui ont besoin de vous, et augmentez vos revenus. À vos conditions.</span>
+          <span class="ar-i">ابنِ ملفاً موثّقاً، واوصل لعائلات تحتاجك، وزد دخلك. بشروطك.</span>
         </p>
         <ul class="perks">
           <li><span class="perk-check">✓</span><span class="en-i">DoneRight badge that builds instant client trust</span><span class="fr-i">Badge Amanah qui inspire confiance instantanément</span><span class="ar-i">شارة DoneRight تبني الثقة الفورية مع العملاء</span></li>
@@ -881,27 +880,29 @@
 
       <!-- USER PATH -->
       <div class="path-card fam reveal">
-        <div class="path-icon-wrap"><svg class="ic"><use href="#i-shield"/></svg></div>
-        <div class="path-tag">
-          <span class="en-i">For Clients</span>
-          <span class="fr-i">Pour Clients</span>
-          <span class="ar-i">للعملاء</span>
+        <div class="path-header">
+          <div class="path-icon-wrap"><svg class="ic"><use href="#i-shield"/></svg></div>
+          <div class="path-tag">
+            <span class="en-i">For Customers</span>
+            <span class="fr-i">Pour Clients</span>
+            <span class="ar-i">للعملاء</span>
+          </div>
         </div>
         <div class="path-title">
-          <span class="en-i">Find the Right Person</span>
-          <span class="fr-i">Trouvez la Bonne Personne</span>
-          <span class="ar-i">ابحث عن الشخص المناسب</span>
+          <span class="en-i">Find the Right Freelancer</span>
+          <span class="fr-i">Trouvez le Bon Freelancer</span>
+          <span class="ar-i">ابحث عن المستقل المناسب</span>
         </div>
         <p class="path-sub">
-          <span class="en-i">Stop asking around. Access Lebanon's most trusted network of vetted freelancers — every service, one app.</span>
-          <span class="fr-i">Arrêtez de demander autour de vous. Accédez au réseau le plus fiable du Liban — chaque service, une seule app.</span>
-          <span class="ar-i">توقف عن السؤال. وصولك لأكثر شبكة موثوقة من المستقلين في لبنان — كل خدمة، تطبيق واحد.</span>
+          <span class="en-i">Stop asking around. Access Lebanon's most trusted network of vetted freelancers. Every service, one app.</span>
+          <span class="fr-i">Arrêtez de demander autour de vous. Accédez au réseau le plus fiable du Liban. Chaque service, une seule app.</span>
+          <span class="ar-i">توقف عن السؤال. وصولك لأكثر شبكة موثوقة من المستقلين في لبنان. كل خدمة، تطبيق واحد.</span>
         </p>
         <ul class="perks">
-          <li><span class="perk-check">✓</span><span class="en-i">Every freelancer fully vetted: ID, background, criminal, references</span><span class="fr-i">Chaque freelancer vérifié : identité, antécédents, casier, références</span><span class="ar-i">كل مستقل موثّق بالكامل: هوية، خلفية، سجل جنائي، تزكيات</span></li>
+          <li><span class="perk-check">✓</span><span class="en-i">Every freelancer fully vetted via Background and Reference Checks, ID Verification, Judicial and Residency Records, and Video Screening</span><span class="fr-i">Chaque freelancer vérifié via vérification des antécédents et références, identité, dossier judiciaire et résidence, et vérification vidéo</span><span class="ar-i">كل مستقل موثّق بالكامل عبر فحص الخلفية والتزكيات، التحقق من الهوية، السجل العدلي والإقامة، والفحص بالفيديو</span></li>
           <li><span class="perk-check">✓</span><span class="en-i">Real reviews from real families like yours</span><span class="fr-i">De vrais avis de vraies familles comme la vôtre</span><span class="ar-i">تقييمات حقيقية من عائلات مثلك</span></li>
           <li><span class="perk-check">✓</span><span class="en-i">Every family service in one trusted app</span><span class="fr-i">Tous les services familiaux dans une seule app de confiance</span><span class="ar-i">كل خدمة عائلية في تطبيق موثوق واحد</span></li>
-          <li><span class="perk-check">✓</span><span class="en-i">No more asking around — trusted help is one tap away</span><span class="fr-i">Fini de demander partout — l'aide de confiance est à un clic</span><span class="ar-i">لا مزيد من السؤال — المساعدة الموثوقة على بُعد نقرة واحدة</span></li>
+          <li><span class="perk-check">✓</span><span class="en-i">No more asking around, trusted help is one click away</span><span class="fr-i">Fini de demander partout, l'aide de confiance est à un clic</span><span class="ar-i">لا مزيد من السؤال، المساعدة الموثوقة على بُعد نقرة واحدة</span></li>
         </ul>
         <!--
           ╔══════════════════════════════════════════════════════╗
@@ -945,9 +946,9 @@
     <span class="ar-i">شبكة المستقلين الموثّقين لخدمات الأسرة</span>
   </p>
   <div class="footer-pills">
-    <span class="pill">🇱🇧 <span class="en-i">Lebanon — Launching First</span><span class="fr-i">Liban — Lancement Imminent</span><span class="ar-i">لبنان — الإطلاق الأول</span></span>
-    <span class="pill">🌍 <span class="en-i">MENA — Coming Soon</span><span class="fr-i">MENA — Bientôt</span><span class="ar-i">الشرق الأوسط — قريباً</span></span>
-    <span class="pill">📱 <span class="en-i">Mobile App — Coming Soon</span><span class="fr-i">App Mobile — Bientôt</span><span class="ar-i">تطبيق الهاتف — قريباً</span></span>
+    <span class="pill">🇱🇧 <span class="en-i">Lebanon | Launching First</span><span class="fr-i">Liban | Lancement Imminent</span><span class="ar-i">لبنان | الإطلاق الأول</span></span>
+    <span class="pill">🌍 <span class="en-i">MENA | Coming Soon</span><span class="fr-i">MENA | Bientôt</span><span class="ar-i">الشرق الأوسط | قريباً</span></span>
+    <span class="pill">📱 <span class="en-i">Mobile App | Coming Soon</span><span class="fr-i">App Mobile | Bientôt</span><span class="ar-i">تطبيق الهاتف | قريباً</span></span>
   </div>
   <p class="footer-copy">
     <span class="en-i">© 2026 DoneRight. All rights reserved.</span>
@@ -1006,9 +1007,15 @@
     const R = allNums[0].offsetWidth / 2;
     const pts = [];
     allNums.forEach(n => {
-      const r = n.getBoundingClientRect();
-      const x = r.left + r.width / 2 - wrapRect.left;
-      const y = r.top + r.height / 2 - wrapRect.top - 4;
+      // Use offsetTop/offsetLeft chain to avoid CSS transform issues (reveal animation)
+      let el = n, ox = 0, oy = 0;
+      while (el && el !== wrap) {
+        ox += el.offsetLeft;
+        oy += el.offsetTop;
+        el = el.offsetParent;
+      }
+      const x = ox + n.offsetWidth / 2;
+      const y = oy + n.offsetHeight / 2;
       pts.push({ x, y });
     });
     svg.querySelectorAll('.seg, .arrow-head').forEach(el => el.remove());

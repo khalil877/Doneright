@@ -164,15 +164,20 @@
     }
     .btn-fam:hover { background: rgba(255,179,71,.15); border-color: var(--gold); transform: translateY(-3px); }
 
-    .hero-numbers {
-      margin-top: 40px; display: flex; flex-direction: column; align-items: center;
-      gap: 20px; text-align: center;
+    .hero-pills {
+      margin-top: 36px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
       animation: fadeUp .8s ease .36s both;
     }
-    .hero-numbers-row { display: flex; gap: 56px; justify-content: center; }
-    .hero-num-val { font-size: 32px; font-weight: 900; color: var(--teal); }
-    .hero-num-lbl { font-size: 13px; color: var(--text-light); font-weight: 500; }
-    .hero-num-featured .hero-num-val { font-size: 48px; }
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: 50px;
+      background: rgba(255,255,255,.85); border: 1.5px solid var(--border);
+      font-size: 14px; font-weight: 600; color: var(--text-dark);
+      backdrop-filter: blur(8px);
+    }
+    .hero-pill svg { width: 18px; height: 18px; flex-shrink: 0; }
+    .hero-pill .pill-icon { color: var(--teal); }
+    .hero-pill strong { color: var(--teal); font-weight: 800; }
 
     /* ── TRUST BAR ────────────────────────────────── */
     .trust { padding: 44px 32px; background: #fff; }
@@ -451,8 +456,8 @@
       .services-grid { grid-template-columns: 1fr; }
       .hero-ctas { flex-direction: column; }
       .btn-pro, .btn-fam { width: 100%; justify-content: center; }
-      .hero-numbers { gap: 20px; }
-      .hero-numbers-row { gap: 32px; }
+      .hero-pills { gap: 8px; }
+      .hero-pill { font-size: 13px; padding: 8px 14px; }
       .path-card { padding: 32px 24px; }
       .nav-waitlist { display: none; }
       .hero { padding: 90px 20px 48px; }
@@ -599,20 +604,18 @@
       </a>
     </div>
 
-    <div class="hero-numbers">
-      <div class="hero-num-featured">
-        <div class="hero-num-val">First</div>
-        <div class="hero-num-lbl"><span class="en-i">Of Its Kind in Lebanon & MENA</span><span class="fr-i">Du Genre au Liban & MENA</span><span class="ar-i">من نوعه في لبنان والمنطقة</span></div>
+    <div class="hero-pills">
+      <div class="hero-pill">
+        <span style="font-size:18px">🇱🇧</span>
+        <span><span class="en-i">First of Its Kind in Lebanon & MENA</span><span class="fr-i">Premier du genre au Liban & MENA</span><span class="ar-i">الأول من نوعه في لبنان والمنطقة</span></span>
       </div>
-      <div class="hero-numbers-row">
-        <div>
-          <div class="hero-num-val">100%</div>
-          <div class="hero-num-lbl"><span class="en-i">Vetted & Verified</span><span class="fr-i">Vérifiés & Certifiés</span><span class="ar-i">موثّقين ومعتمدين</span></div>
-        </div>
-        <div>
-          <div class="hero-num-val">9+</div>
-          <div class="hero-num-lbl"><span class="en-i">Family Services</span><span class="fr-i">Services Familiaux</span><span class="ar-i">خدمات عائلية</span></div>
-        </div>
+      <div class="hero-pill">
+        <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span><span class="en-i">Vetted & Verified</span><span class="fr-i">Vérifiés & Certifiés</span><span class="ar-i">موثّقين ومعتمدين</span></span>
+      </div>
+      <div class="hero-pill">
+        <strong>9+</strong>
+        <span><span class="en-i">Family Services</span><span class="fr-i">Services Familiaux</span><span class="ar-i">خدمات عائلية</span></span>
       </div>
     </div>
   </div>

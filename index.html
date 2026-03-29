@@ -186,7 +186,7 @@
       text-align: center; font-size: 16px; font-weight: 800;
       letter-spacing: 2.5px; text-transform: uppercase; color: var(--teal); margin-bottom: 32px;
     }
-    .trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
     .trust-card {
       display: flex; flex-direction: column; align-items: center; text-align: center;
       padding: 28px 18px; background: #fff; border-radius: var(--radius);
@@ -247,9 +247,12 @@
     /* ── VETTING STEPS ────────────────────────────── */
     .steps-wrap { position: relative; }
     .steps-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px 28px;
-      row-gap: 42px; position: relative; z-index: 1;
+      position: relative; z-index: 1;
     }
+    .steps-row {
+      display: flex; justify-content: center; gap: 20px;
+    }
+    .steps-row + .steps-row { margin-top: 42px; }
     .steps-line {
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       z-index: 0; pointer-events: none; overflow: visible;
@@ -266,7 +269,7 @@
       fill: var(--teal); stroke: none;
     }
     @keyframes dashFlow { to { stroke-dashoffset: -28; } }
-    .step { text-align: center; position: relative; z-index: 1; max-width: 170px; margin: 0 auto; }
+    .step { text-align: center; position: relative; z-index: 1; width: 170px; flex-shrink: 0; }
     .step-num {
       width: 58px; height: 58px; border-radius: 50%; margin: 0 auto 12px;
       display: flex; align-items: center; justify-content: center;
@@ -386,20 +389,22 @@
     @media (max-width: 900px) {
       .trust-grid { grid-template-columns: repeat(2, 1fr); }
       .services-grid { grid-template-columns: repeat(2, 1fr); }
-      .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 22px; }
-      .steps-grid::before { display: none; }
+      .steps-row { flex-wrap: wrap; gap: 16px; }
+      .step { min-width: 140px; }
       .paths-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 700px) {
       /* Hide the SVG snake lines on mobile */
       svg.steps-line, #stepsLine { display: none !important; visibility: hidden !important; }
-      /* Reset all steps to natural 1-6 order */
       .steps-grid {
-        grid-template-columns: 1fr;
-        gap: 0;
         position: relative;
         padding-left: 50px;
       }
+      .steps-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      .steps-row + .steps-row { margin-top: 0; }
       /* Vertical timeline line */
       .steps-grid::before {
         content: '';
@@ -420,13 +425,6 @@
       @keyframes dashFlowVert {
         to { background-position: 0 -28px; }
       }
-      /* Force correct 1-6 order on mobile (DOM has row2 reversed for desktop snake) */
-      .step:nth-child(1) { order: 1 !important; }
-      .step:nth-child(2) { order: 2 !important; }
-      .step:nth-child(3) { order: 3 !important; }
-      .step:nth-child(4) { order: 6 !important; }
-      .step:nth-child(5) { order: 5 !important; }
-      .step:nth-child(6) { order: 4 !important; }
       .step {
         text-align: left;
         max-width: 100%;
@@ -524,17 +522,16 @@
     <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
   </symbol>
   <!-- ID Card -->
-  <symbol id="i-id" viewBox="0 0 28 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-    <!-- ID card -->
-    <rect x="1" y="5" width="20" height="14" rx="2"/><circle cx="7.5" cy="12" r="2"/><path d="M13 10h4M13 14h3"/>
-    <!-- Selfie/camera badge -->
-    <rect x="17" y="1" width="10" height="10" rx="3" fill="currentColor" stroke="none" opacity=".15"/>
-    <circle cx="22" cy="6" r="2.5" stroke-width="1.6"/>
-    <path d="M19.5 3.5h5" stroke-width="1.2"/>
+  <symbol id="i-id" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h3"/>
   </symbol>
   <!-- File Check (Records) -->
   <symbol id="i-filecheck" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
     <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M9 15l2 2 4-4"/>
+  </symbol>
+  <!-- Video (Video Screening) -->
+  <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="2" y="4" width="14" height="16" rx="2"/><path d="M16 10l5-3v10l-5-3"/>
   </symbol>
   <!-- Chat (Word of Mouth / References) -->
   <symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -645,6 +642,93 @@
         <div class="trust-title"><span class="en-i">Judicial Record & Residency</span><span class="fr-i">Dossier Judiciaire & Résidence</span><span class="ar-i">السجل العدلي وإثبات الإقامة</span></div>
         <div class="trust-desc"><span class="en-i">Clean judicial record and certificate of residency verified</span><span class="fr-i">Dossier judiciaire vierge et certificat de résidence vérifiés</span><span class="ar-i">سجل عدلي نظيف وشهادة إقامة موثّقة</span></div>
       </div>
+      <div class="trust-card reveal">
+        <div class="trust-card-icon"><svg class="ic"><use href="#i-video"/></svg></div>
+        <div class="trust-title"><span class="en-i">Video Screening</span><span class="fr-i">Vérification Vidéo</span><span class="ar-i">فحص بالفيديو</span></div>
+        <div class="trust-desc"><span class="en-i">Every freelancer screened via video before approval</span><span class="fr-i">Chaque freelancer vérifié par vidéo avant approbation</span><span class="ar-i">كل مستقل يتم فحصه عبر الفيديو قبل الموافقة</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ VETTING PROCESS ══════════════════════════════ -->
+<section class="sec">
+  <div class="sec-inner">
+    <p class="sec-label"><span class="en-i">How We Vet</span><span class="fr-i">Notre Processus</span><span class="ar-i">كيف نتحقق</span></p>
+    <h2 class="sec-title reveal">
+      <span class="en">7 Steps Before They<br>Reach Your Door.</span>
+      <span class="fr">7 Étapes Avant d'Arriver<br>à Votre Porte.</span>
+      <span class="ar">7 خطوات قبل أن<br>يصلوا إلى بابك.</span>
+    </h2>
+    <p class="sec-sub reveal">
+      <span class="en">Every freelancer on DoneRight goes through our thorough 7-step verification before serving your family — no shortcuts.</span>
+      <span class="fr">Chaque freelancer sur DoneRight passe notre vérification approfondie en 7 étapes avant de servir votre famille — sans raccourcis.</span>
+      <span class="ar">كل مستقل على DoneRight يمر بعملية التحقق الشاملة في 7 خطوات قبل خدمة عائلتك — بدون اختصارات.</span>
+    </p>
+    <div class="steps-wrap" id="stepsWrap">
+      <svg class="steps-line" id="stepsLine">
+        <defs>
+          <linearGradient id="stepGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="var(--teal)"/>
+            <stop offset="100%" stop-color="var(--gold)"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="steps-grid">
+        <div class="steps-row">
+          <div class="step reveal">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <div class="step-title"><span class="en-i">Apply & Submit</span><span class="fr-i">Postuler</span><span class="ar-i">التقدم والتقديم</span></div>
+              <div class="step-desc"><span class="en-i">Documentation, credentials, and references submitted</span><span class="fr-i">Documents, qualifications et références soumis</span><span class="ar-i">تقديم الوثائق والمؤهلات والتزكيات</span></div>
+            </div>
+          </div>
+          <div class="step reveal">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <div class="step-title"><span class="en-i">Identity & Records</span><span class="fr-i">Identité & Dossier</span><span class="ar-i">الهوية والسجلات</span></div>
+              <div class="step-desc"><span class="en-i">ID verified and judicial record checked</span><span class="fr-i">Identité vérifiée et dossier judiciaire contrôlé</span><span class="ar-i">التحقق من الهوية وفحص السجل العدلي</span></div>
+            </div>
+          </div>
+          <div class="step reveal">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <div class="step-title"><span class="en-i">Skill Assessment</span><span class="fr-i">Évaluation des Compétences</span><span class="ar-i">تقييم المهارات</span></div>
+              <div class="step-desc"><span class="en-i">Skill quizzes tailored to each freelancer's field</span><span class="fr-i">Quiz de compétences adaptés à chaque domaine</span><span class="ar-i">اختبارات مهارات مخصصة لكل مجال</span></div>
+            </div>
+          </div>
+          <div class="step reveal">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <div class="step-title"><span class="en-i">Video Screening</span><span class="fr-i">Vérification Vidéo</span><span class="ar-i">فحص بالفيديو</span></div>
+              <div class="step-desc"><span class="en-i">Video review of each freelancer before approval</span><span class="fr-i">Évaluation vidéo de chaque freelancer avant approbation</span><span class="ar-i">مراجعة بالفيديو لكل مستقل قبل الموافقة</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="steps-row">
+          <div class="step reveal">
+            <div class="step-num">7</div>
+            <div class="step-content">
+              <div class="step-title"><span class="en-i">Certified & Badged</span><span class="fr-i">Certifié & Badgé</span><span class="ar-i">معتمد وحاصل على الشارة</span></div>
+              <div class="step-desc"><span class="en-i">Approved freelancers earn the DoneRight badge</span><span class="fr-i">Les freelancers approuvés obtiennent le badge DoneRight</span><span class="ar-i">المستقلون المعتمدون يحصلون على شارة DoneRight</span></div>
+            </div>
+          </div>
+          <div class="step reveal">
+            <div class="step-num">6</div>
+            <div class="step-content">
+              <div class="step-title"><span class="en-i">In-Person Interview</span><span class="fr-i">Entretien en Personne</span><span class="ar-i">مقابلة شخصية</span></div>
+              <div class="step-desc"><span class="en-i">Face-to-face interview to assess character and professionalism</span><span class="fr-i">Entretien face à face pour évaluer le caractère et le professionnalisme</span><span class="ar-i">مقابلة وجهاً لوجه لتقييم الشخصية والاحترافية</span></div>
+            </div>
+          </div>
+          <div class="step reveal">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <div class="step-title"><span class="en-i">Reference Calls</span><span class="fr-i">Appels de Références</span><span class="ar-i">التزكيات الحقيقية</span></div>
+              <div class="step-desc"><span class="en-i">Past clients and employers contacted to verify track record</span><span class="fr-i">Anciens clients et employeurs contactés pour vérification</span><span class="ar-i">التواصل مع عملاء وأصحاب عمل سابقين للتحقق</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -660,7 +744,6 @@
     </h2>
 
     <div class="services-grid">
-      <!-- 1. Tutors -->
       <div class="srv-card reveal">
         <div class="srv-icon-wrap" style="background:#EEF2FF;"><svg class="ic" style="color:#3B5998"><use href="#i-book"/></svg></div>
         <div>
@@ -668,7 +751,6 @@
           <div class="srv-desc"><span class="en-i">Qualified teachers for all ages and subjects</span><span class="fr-i">Enseignants qualifiés pour tous les âges et matières</span><span class="ar-i">معلمون مؤهلون لجميع الأعمار والمواد</span></div>
         </div>
       </div>
-      <!-- 2. Sports & Fitness Trainers -->
       <div class="srv-card reveal">
         <div class="srv-icon-wrap" style="background:#F0FFF4;"><svg class="ic" style="color:#2D8B4E"><use href="#i-dumbbell"/></svg></div>
         <div>
@@ -676,7 +758,6 @@
           <div class="srv-desc"><span class="en-i">Certified trainers for all sports and fitness levels</span><span class="fr-i">Coachs certifiés pour tous les sports et niveaux</span><span class="ar-i">مدربون معتمدون لجميع الرياضات ومستويات اللياقة</span></div>
         </div>
       </div>
-      <!-- 3. Babysitters & Nannies -->
       <div class="srv-card reveal">
         <div class="srv-icon-wrap" style="background:#FFF0F3;"><svg class="ic" style="color:#E8457C"><use href="#i-heart"/></svg></div>
         <div>
@@ -684,7 +765,6 @@
           <div class="srv-desc"><span class="en-i">Loving, experienced caregivers for your children</span><span class="fr-i">Des gardiennes expérimentées et attentionnées pour vos enfants</span><span class="ar-i">مقدمو رعاية متمرسون ومحبون لأطفالك</span></div>
         </div>
       </div>
-      <!-- 4. Beauty Services -->
       <div class="srv-card reveal">
         <div class="srv-icon-wrap" style="background:#FFF0F8;"><svg class="ic" style="color:#C44BAF"><use href="#i-sparkle"/></svg></div>
         <div>
@@ -692,7 +772,6 @@
           <div class="srv-desc"><span class="en-i">Professional beauty treatments in the comfort of your home</span><span class="fr-i">Soins beauté professionnels dans le confort de votre maison</span><span class="ar-i">علاجات تجميل احترافية في راحة منزلك</span></div>
         </div>
       </div>
-      <!-- 5. Music & Art Instructors -->
       <div class="srv-card reveal">
         <div class="srv-icon-wrap" style="background:#FFF8E7;"><svg class="ic" style="color:#B8860B"><use href="#i-music"/></svg></div>
         <div>
@@ -700,7 +779,6 @@
           <div class="srv-desc"><span class="en-i">Nurture creativity with verified instructors</span><span class="fr-i">Développez la créativité avec des instructeurs vérifiés</span><span class="ar-i">احتضن الإبداع مع مدربين موثّقين</span></div>
         </div>
       </div>
-      <!-- 6. Nurses -->
       <div class="srv-card reveal">
         <div class="srv-icon-wrap" style="background:#FFF0F0;"><svg class="ic" style="color:#D32F2F"><use href="#i-medical"/></svg></div>
         <div>
@@ -708,7 +786,6 @@
           <div class="srv-desc"><span class="en-i">Maternity, newborn, and child nursing care at home</span><span class="fr-i">Soins maternité, nouveau-né et pédiatriques à domicile</span><span class="ar-i">رعاية تمريضية للأمومة والمواليد والأطفال في المنزل</span></div>
         </div>
       </div>
-      <!-- 7. Caregivers -->
       <div class="srv-card reveal">
         <div class="srv-icon-wrap" style="background:#FFF3E7;"><svg class="ic" style="color:#C0713A"><use href="#i-elder"/></svg></div>
         <div>
@@ -716,7 +793,6 @@
           <div class="srv-desc"><span class="en-i">Compassionate, dignified care for your beloved elders</span><span class="fr-i">Des soins dignes et bienveillants pour vos aînés</span><span class="ar-i">رعاية متعاطفة وكريمة لكبار السن في عائلتك</span></div>
         </div>
       </div>
-      <!-- 8. Home-Based Therapists -->
       <div class="srv-card reveal">
         <div class="srv-icon-wrap" style="background:#F0F4FF;"><svg class="ic" style="color:#4A6FA5"><use href="#i-pulse"/></svg></div>
         <div>
@@ -724,83 +800,11 @@
           <div class="srv-desc"><span class="en-i">Physical therapy, speech therapy, motor skills — licensed specialists at your door</span><span class="fr-i">Kinésithérapie, orthophonie, motricité — des spécialistes à domicile</span><span class="ar-i">علاج طبيعي، نطق، مهارات حركية — متخصصون مرخصون عند بابك</span></div>
         </div>
       </div>
-      <!-- 9. Pet Sitters -->
       <div class="srv-card reveal">
         <div class="srv-icon-wrap" style="background:#F5F0FF;"><svg class="ic" style="color:#7C5CBF"><use href="#i-dog"/></svg></div>
         <div>
           <div class="srv-name"><span class="en-i">Pet Sitters</span><span class="fr-i">Garde d'Animaux</span><span class="ar-i">رعاة الحيوانات الأليفة</span></div>
           <div class="srv-desc"><span class="en-i">Trusted pet lovers who treat your pet like their own</span><span class="fr-i">Des passionnés qui traitent votre animal comme le leur</span><span class="ar-i">محبو حيوانات موثوقون يعاملون حيوانك كأنه ملكهم</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ VETTING PROCESS ══════════════════════════════ -->
-<section class="sec">
-  <div class="sec-inner">
-    <p class="sec-label"><span class="en-i">How We Vet</span><span class="fr-i">Notre Processus</span><span class="ar-i">كيف نتحقق</span></p>
-    <h2 class="sec-title reveal">
-      <span class="en">Trust is Not an Accident.<br>It's a Process.</span>
-      <span class="fr">La Confiance n'est Pas un Hasard.<br>C'est un Processus.</span>
-      <span class="ar">الثقة ليست مصادفة.<br>إنها عملية.</span>
-    </h2>
-    <p class="sec-sub reveal">
-      <span class="en">Every freelancer on DoneRight goes through our thorough 6-step verification before serving your family — no shortcuts.</span>
-      <span class="fr">Chaque freelancer sur DoneRight passe notre vérification approfondie en 6 étapes avant de servir votre famille — sans raccourcis.</span>
-      <span class="ar">كل مستقل على DoneRight يمر بعملية التحقق الشاملة في 6 خطوات قبل خدمة عائلتك — بدون اختصارات.</span>
-    </p>
-    <div class="steps-wrap" id="stepsWrap">
-      <svg class="steps-line" id="stepsLine">
-        <defs>
-          <linearGradient id="stepGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="var(--teal)"/>
-            <stop offset="100%" stop-color="var(--gold)"/>
-          </linearGradient>
-        </defs>
-      </svg>
-      <div class="steps-grid">
-        <div class="step reveal" style="order:1">
-          <div class="step-num">1</div>
-          <div class="step-content">
-            <div class="step-title"><span class="en-i">Apply & Submit</span><span class="fr-i">Postuler</span><span class="ar-i">التقدم والتقديم</span></div>
-            <div class="step-desc"><span class="en-i">Full documentation, credentials, and references submitted by the applicant</span><span class="fr-i">Documents complets, qualifications et références soumis par le candidat</span><span class="ar-i">وثائق كاملة ومؤهلات وتزكيات يقدمها المتقدم</span></div>
-          </div>
-        </div>
-        <div class="step reveal" style="order:2">
-          <div class="step-num">2</div>
-          <div class="step-content">
-            <div class="step-title"><span class="en-i">Identity & Records</span><span class="fr-i">Identité & Casier</span><span class="ar-i">الهوية والسجلات</span></div>
-            <div class="step-desc"><span class="en-i">Government ID verified and criminal background check completed</span><span class="fr-i">Pièce d'identité vérifiée et casier judiciaire contrôlé</span><span class="ar-i">التحقق من الهوية الرسمية وإجراء فحص السجل الجنائي</span></div>
-          </div>
-        </div>
-        <div class="step reveal" style="order:3">
-          <div class="step-num">3</div>
-          <div class="step-content">
-            <div class="step-title"><span class="en-i">Skill Checks</span><span class="fr-i">Test de Compétences</span><span class="ar-i">اختبار المهارات</span></div>
-            <div class="step-desc"><span class="en-i">Hands-on assessment of each freelancer's skills and qualifications for their field</span><span class="fr-i">Évaluation pratique des compétences et qualifications de chaque freelancer</span><span class="ar-i">تقييم عملي لمهارات ومؤهلات كل مستقل في مجاله</span></div>
-          </div>
-        </div>
-        <div class="step reveal" style="order:4">
-          <div class="step-num">6</div>
-          <div class="step-content">
-            <div class="step-title"><span class="en-i">Certified & Badged</span><span class="fr-i">Certifié & Badgé</span><span class="ar-i">معتمد وحاصل على الشارة</span></div>
-            <div class="step-desc"><span class="en-i">Only approved freelancers earn the DoneRight badge and join the platform</span><span class="fr-i">Seuls les freelancers approuvés obtiennent le badge DoneRight</span><span class="ar-i">فقط المستقلون المعتمدون يحصلون على شارة DoneRight وينضمون للمنصة</span></div>
-          </div>
-        </div>
-        <div class="step reveal" style="order:5">
-          <div class="step-num">5</div>
-          <div class="step-content">
-            <div class="step-title"><span class="en-i">Reference Calls</span><span class="fr-i">Appels de Références</span><span class="ar-i">التزكيات الحقيقية</span></div>
-            <div class="step-desc"><span class="en-i">We personally contact past clients and employers to verify their track record</span><span class="fr-i">Nous contactons personnellement les anciens clients et employeurs</span><span class="ar-i">نتواصل شخصياً مع عملاء وأصحاب عمل سابقين للتحقق من سجلهم</span></div>
-          </div>
-        </div>
-        <div class="step reveal" style="order:6">
-          <div class="step-num">4</div>
-          <div class="step-content">
-            <div class="step-title"><span class="en-i">In-Person Interview</span><span class="fr-i">Entretien en Personne</span><span class="ar-i">مقابلة شخصية</span></div>
-            <div class="step-desc"><span class="en-i">A face-to-face interview to assess character, professionalism, and reliability</span><span class="fr-i">Un entretien en face à face pour évaluer le caractère et le professionnalisme</span><span class="ar-i">مقابلة وجهاً لوجه لتقييم الشخصية والاحترافية والموثوقية</span></div>
-          </div>
         </div>
       </div>
     </div>
@@ -1031,26 +1035,23 @@
       svg.appendChild(tri);
     }
 
-    // Row 1: 1→2→3 (left to right)
-    for (let i = 0; i < 2; i++) {
+    // Row 1: 1→2→3→4 (left to right)
+    for (let i = 0; i < 3; i++) {
       const a = pts[i], b = pts[i + 1];
       line(a.x + R, a.y, b.x - R, b.y);
       arrow((a.x + R + b.x - R) / 2, (a.y + b.y) / 2, 0);
     }
 
-    // 3→4 connector: right out of 3, straight down, straight left into 4
-    const p3 = pts[2], p4 = pts[3];
-    const turnX = Math.min(W - 20, p3.x + R + 60);
-    // horizontal out from 3
-    line(p3.x + R, p3.y, turnX, p3.y);
-    // vertical down
-    line(turnX, p3.y, turnX, p4.y);
-    arrow(turnX, (p3.y + p4.y) / 2, 90);
-    // horizontal into 4
-    line(turnX, p4.y, p4.x + R, p4.y);
+    // 4→5 connector: down from 4, then left into 5 (5 is on the right side of row 2)
+    const p4 = pts[3], p5 = pts[4];
+    const turnX2 = Math.min(W - 20, p4.x + R + 80);
+    line(p4.x + R, p4.y, turnX2, p4.y);
+    line(turnX2, p4.y, turnX2, p5.y);
+    arrow(turnX2, (p4.y + p5.y) / 2, 90);
+    line(turnX2, p5.y, p5.x + R, p5.y);
 
-    // Row 2: 4→5→6 (right to left)
-    for (let i = 3; i < 5; i++) {
+    // Row 2: 5→6→7 (right to left)
+    for (let i = 4; i < 6; i++) {
       const a = pts[i], b = pts[i + 1];
       line(a.x - R, a.y, b.x + R, b.y);
       arrow((a.x - R + b.x + R) / 2, (a.y + b.y) / 2, 180);

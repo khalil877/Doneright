@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Servi Student Income Calculator – Find out how much you can earn as a student freelancer." />
+  <title>Servi | Student Income Calculator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #2D4A7A;
+      --navy-dark:  #1E3558;
+      --teal:       #D4541E;
+      --teal-light: #E8722E;
+      --gold:       #F0A030;
+      --gold-dark:  #C8841A;
+      --bg-light:   #FFF8F3;
+      --text-dark:  #2D2D3A;
+      --text-mid:   #5A6577;
+      --text-light: #8B95A5;
+      --border:     #F0E6DC;
+      --shadow:     0 4px 24px rgba(180,140,100,.10);
+      --shadow-lg:  0 12px 48px rgba(180,140,100,.15);
+      --radius:     20px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Cairo', sans-serif;
+      color: var(--text-dark);
+      background: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ── LANGUAGE HELPERS ────────────────────────── */
+    .en, .ar, .fr { display: none; }
+    [data-lang="en"] .en { display: block; }
+    [data-lang="ar"] .ar { display: block; }
+    [data-lang="fr"] .fr { display: block; }
+    .en-i, .ar-i, .fr-i { display: none; }
+    [data-lang="en"] .en-i { display: inline; }
+    [data-lang="ar"] .ar-i { display: inline; }
+    [data-lang="fr"] .fr-i { display: inline; }
+
+    /* ── NAVBAR ───────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 14px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(226,232,240,.6);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-img { width: 40px; height: 40px; object-fit: contain; }
+    .logo-text { font-size: 22px; font-weight: 900; color: #000; letter-spacing: -.5px; }
+    .logo-text em { font-style: normal; color: var(--teal); }
+    .nav-right { display: flex; align-items: center; gap: 14px; }
+    .lang-toggle { display: flex; background: var(--bg-light); border-radius: 24px; padding: 4px; gap: 2px; }
+    .lang-btn {
+      padding: 6px 15px; border-radius: 20px; border: none;
+      font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 700;
+      cursor: pointer; color: var(--text-mid); background: transparent; transition: all .2s;
+    }
+    .lang-btn.active { background: #fff; color: var(--navy); box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+    .nav-back {
+      padding: 10px 22px; background: var(--teal); color: #fff;
+      border-radius: 24px; font-family: 'Cairo', sans-serif;
+      font-size: 14px; font-weight: 700; text-decoration: none; transition: all .2s;
+    }
+    .nav-back:hover { background: var(--teal-light); transform: translateY(-1px); }
+
+    /* ── HERO ─────────────────────────────────────── */
+    .hero {
+      min-height: 340px;
+      background: linear-gradient(155deg, #FFF8F3 0%, #FFF0E6 30%, #E6F4F8 70%, #EDF8FB 100%);
+      display: flex; align-items: center; justify-content: center;
+      padding: 120px 32px 56px;
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: -30%; right: -15%;
+      width: 70%; height: 120%;
+      background: radial-gradient(ellipse, rgba(212,84,30,.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes countUp { from { opacity: 0; transform: scale(.85); } to { opacity: 1; transform: scale(1); } }
+    @keyframes shimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+
+    .hero-inner { max-width: 700px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(212,84,30,.1); border: 1px solid rgba(212,84,30,.2);
+      color: var(--teal); padding: 8px 18px; border-radius: 24px;
+      font-size: 13px; font-weight: 700; letter-spacing: .4px; margin-bottom: 20px;
+      animation: fadeIn .7s ease both;
+    }
+    .hero-h1 {
+      font-size: clamp(28px, 5vw, 48px); font-weight: 900; color: var(--text-dark);
+      line-height: 1.15; margin-bottom: 14px;
+      animation: fadeUp .8s ease .1s both;
+    }
+    .hero-h1 .hi { background: linear-gradient(135deg, var(--teal), var(--teal-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-sub {
+      font-size: clamp(15px, 2vw, 18px); color: var(--text-mid);
+      font-weight: 500; max-width: 540px; line-height: 1.7; margin: 0 auto;
+      animation: fadeUp .8s ease .2s both;
+    }
+
+    /* ── CALCULATOR SECTION ───────────────────────── */
+    .calc-section {
+      padding: 0 24px 80px;
+      max-width: 900px;
+      margin: -40px auto 0;
+      position: relative; z-index: 2;
+    }
+
+    .calc-card {
+      background: #fff;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-lg);
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .calc-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--teal), var(--gold));
+    }
+
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 36px;
+    }
+
+    .input-group { display: flex; flex-direction: column; gap: 8px; }
+    .input-group.full-width { grid-column: 1 / -1; }
+
+    .input-label {
+      font-size: 14px; font-weight: 700; color: var(--navy);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .input-label .label-icon {
+      width: 20px; height: 20px; color: var(--teal);
+    }
+    .input-hint {
+      font-size: 12px; color: var(--text-light); font-weight: 500;
+      margin-top: -4px;
+    }
+
+    /* Sliders */
+    .slider-wrap {
+      display: flex; align-items: center; gap: 16px;
+    }
+    .slider-wrap input[type="range"] {
+      flex: 1; height: 6px; -webkit-appearance: none; appearance: none;
+      background: var(--border); border-radius: 3px; outline: none;
+      cursor: pointer;
+    }
+    .slider-wrap input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      box-shadow: 0 2px 8px rgba(212,84,30,.35); cursor: pointer;
+      border: 3px solid #fff;
+    }
+    .slider-wrap input[type="range"]::-moz-range-thumb {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      box-shadow: 0 2px 8px rgba(212,84,30,.35); cursor: pointer;
+      border: 3px solid #fff;
+    }
+    .slider-val {
+      min-width: 60px; text-align: center;
+      font-size: 18px; font-weight: 800; color: var(--teal);
+      background: rgba(212,84,30,.08); border-radius: 12px;
+      padding: 6px 12px;
+    }
+
+    /* Dropdown */
+    .select-wrap {
+      position: relative;
+    }
+    .select-wrap select {
+      width: 100%; padding: 14px 18px; font-family: 'Cairo', sans-serif;
+      font-size: 15px; font-weight: 600; color: var(--text-dark);
+      background: var(--bg-light); border: 2px solid var(--border);
+      border-radius: 14px; outline: none; cursor: pointer;
+      appearance: none; -webkit-appearance: none;
+      transition: border-color .2s;
+    }
+    .select-wrap select:focus { border-color: var(--teal); }
+    .select-wrap::after {
+      content: ''; position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
+      width: 0; height: 0;
+      border-left: 6px solid transparent; border-right: 6px solid transparent;
+      border-top: 6px solid var(--text-mid);
+      pointer-events: none;
+    }
+
+    /* Experience Cards */
+    .exp-cards {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    }
+    .exp-card {
+      padding: 16px 12px; border-radius: 14px;
+      border: 2px solid var(--border); background: var(--bg-light);
+      text-align: center; cursor: pointer; transition: all .25s;
+      position: relative;
+    }
+    .exp-card:hover { border-color: rgba(212,84,30,.3); transform: translateY(-2px); }
+    .exp-card.active {
+      border-color: var(--teal);
+      background: rgba(212,84,30,.06);
+      box-shadow: 0 4px 16px rgba(212,84,30,.15);
+    }
+    .exp-card input { display: none; }
+    .exp-icon { font-size: 28px; margin-bottom: 6px; }
+    .exp-title { font-size: 14px; font-weight: 800; color: var(--navy); }
+    .exp-desc { font-size: 11px; color: var(--text-light); font-weight: 500; line-height: 1.4; margin-top: 4px; }
+
+    /* Calculate Button */
+    .calc-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 18px; border-radius: 50px; border: none;
+      font-family: 'Cairo', sans-serif; font-size: 18px; font-weight: 800;
+      color: #fff; cursor: pointer;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      box-shadow: 0 8px 32px rgba(212,84,30,.35);
+      transition: all .3s;
+    }
+    .calc-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 44px rgba(212,84,30,.45); }
+    .calc-btn:active { transform: translateY(0); }
+    .calc-btn svg { width: 22px; height: 22px; }
+
+    /* ── RESULTS ──────────────────────────────────── */
+    .results {
+      margin-top: 36px;
+      display: none;
+      animation: fadeUp .5s ease both;
+    }
+    .results.show { display: block; }
+
+    .results-header {
+      text-align: center; margin-bottom: 28px;
+    }
+    .results-header h2 {
+      font-size: 22px; font-weight: 900; color: var(--navy);
+    }
+
+    .results-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .result-card {
+      padding: 24px 16px; border-radius: var(--radius);
+      text-align: center; position: relative; overflow: hidden;
+      animation: countUp .4s ease both;
+    }
+    .result-card:nth-child(1) { animation-delay: .1s; }
+    .result-card:nth-child(2) { animation-delay: .2s; }
+    .result-card:nth-child(3) { animation-delay: .3s; }
+
+    .result-card.hours {
+      background: linear-gradient(135deg, #EDF8FB, #E0F2F6);
+      border: 1px solid rgba(45,74,122,.15);
+    }
+    .result-card.rate {
+      background: linear-gradient(135deg, #FFF4EC, #FFE8D6);
+      border: 1px solid rgba(212,84,30,.15);
+    }
+    .result-card.income {
+      background: linear-gradient(135deg, #FFF8ED, #FFF0D4);
+      border: 1px solid rgba(240,160,48,.2);
+    }
+
+    .result-label {
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: 8px;
+    }
+    .result-card.hours .result-label { color: var(--navy); }
+    .result-card.rate .result-label { color: var(--teal); }
+    .result-card.income .result-label { color: var(--gold-dark); }
+
+    .result-value {
+      font-size: clamp(24px, 4vw, 32px); font-weight: 900; line-height: 1.2;
+    }
+    .result-card.hours .result-value { color: var(--navy-dark); }
+    .result-card.rate .result-value { color: var(--teal); }
+    .result-card.income .result-value { color: var(--gold-dark); }
+
+    .result-unit {
+      font-size: 12px; font-weight: 600; color: var(--text-light); margin-top: 4px;
+    }
+
+    /* Big income display */
+    .income-hero {
+      background: linear-gradient(135deg, var(--navy-dark), var(--navy));
+      border-radius: var(--radius); padding: 32px 24px;
+      text-align: center; position: relative; overflow: hidden;
+      animation: countUp .5s ease .35s both;
+    }
+    .income-hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(212,84,30,.1), rgba(240,160,48,.1));
+      pointer-events: none;
+    }
+    .income-hero-label {
+      font-size: 13px; font-weight: 700; color: rgba(255,255,255,.6);
+      text-transform: uppercase; letter-spacing: 2px; margin-bottom: 8px;
+      position: relative;
+    }
+    .income-hero-value {
+      font-size: clamp(32px, 6vw, 52px); font-weight: 900;
+      background: linear-gradient(90deg, #fff, var(--gold), #fff);
+      background-size: 200% auto;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: shimmer 3s linear infinite;
+      position: relative;
+    }
+    .income-hero-sub {
+      font-size: 14px; font-weight: 600; color: rgba(255,255,255,.5);
+      margin-top: 4px; position: relative;
+    }
+
+    /* Progress bar for income range */
+    .income-bar-wrap {
+      margin-top: 20px; position: relative; padding: 0 8px;
+    }
+    .income-bar-track {
+      height: 8px; background: rgba(255,255,255,.15); border-radius: 4px;
+      overflow: hidden; position: relative;
+    }
+    .income-bar-fill {
+      height: 100%; border-radius: 4px;
+      background: linear-gradient(90deg, var(--teal), var(--gold));
+      transition: width .8s cubic-bezier(.4,0,.2,1);
+      width: 0;
+    }
+    .income-bar-labels {
+      display: flex; justify-content: space-between;
+      margin-top: 8px; position: relative;
+    }
+    .income-bar-labels span {
+      font-size: 12px; font-weight: 700; color: rgba(255,255,255,.5);
+    }
+
+    /* Motivational message */
+    .motivation {
+      margin-top: 20px; padding: 16px 20px;
+      background: rgba(240,160,48,.08); border-radius: 14px;
+      border: 1px solid rgba(240,160,48,.15);
+      text-align: center;
+      animation: fadeUp .4s ease .5s both;
+    }
+    .motivation p {
+      font-size: 14px; font-weight: 600; color: var(--navy);
+      line-height: 1.6;
+    }
+    .motivation .mot-emoji { font-size: 20px; }
+
+    /* CTA at bottom */
+    .results-cta {
+      text-align: center; margin-top: 28px;
+      animation: fadeUp .4s ease .6s both;
+    }
+    .results-cta a {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 36px; border-radius: 50px;
+      font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: 800;
+      text-decoration: none; color: #fff;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      box-shadow: 0 8px 32px rgba(212,84,30,.35);
+      transition: all .3s;
+    }
+    .results-cta a:hover { transform: translateY(-3px); box-shadow: 0 14px 44px rgba(212,84,30,.45); }
+
+    /* ── PATH TOGGLE ──────────────────────────────── */
+    .path-toggle {
+      display: flex; background: var(--bg-light); border-radius: 16px;
+      padding: 5px; margin-bottom: 32px; gap: 4px;
+    }
+    .path-btn {
+      flex: 1; padding: 14px 16px; border-radius: 12px; border: none;
+      font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 700;
+      cursor: pointer; color: var(--text-mid); background: transparent;
+      transition: all .25s; text-align: center;
+    }
+    .path-btn.active {
+      background: #fff; color: var(--navy);
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    }
+    .path-btn:hover:not(.active) { color: var(--navy); }
+
+    .path-schedule, .path-direct { display: none; }
+    .path-schedule.active, .path-direct.active { display: grid; }
+    .path-direct.active { display: flex; flex-direction: column; gap: 8px; margin-bottom: 32px; }
+
+    /* ── FOOTER ───────────────────────────────────── */
+    .footer {
+      padding: 32px; text-align: center;
+      background: var(--bg-light); border-top: 1px solid var(--border);
+    }
+    .footer p { font-size: 13px; color: var(--text-light); font-weight: 500; }
+
+    /* ── RESPONSIVE ───────────────────────────────── */
+    @media (max-width: 700px) {
+      .nav { padding: 12px 16px; }
+      .hero { padding: 100px 20px 40px; }
+      .calc-section { padding: 0 16px 60px; margin-top: -24px; }
+      .calc-card { padding: 24px 18px; }
+      .calc-grid { grid-template-columns: 1fr; gap: 24px; }
+      .exp-cards { grid-template-columns: 1fr; gap: 8px; }
+      .exp-card { display: flex; align-items: center; gap: 12px; text-align: left; padding: 14px 16px; }
+      .exp-icon { margin-bottom: 0; font-size: 24px; }
+      .results-grid { grid-template-columns: 1fr; gap: 12px; }
+      .income-hero { padding: 24px 16px; }
+      .nav-back span { display: none; }
+    }
+
+    @media (max-width: 400px) {
+      .lang-toggle { padding: 3px; }
+      .lang-btn { padding: 5px 10px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ──────────────────────────────────── -->
+<nav class="nav">
+  <a href="index.html" class="logo">
+    <img src="logo.png" alt="Servi" class="logo-img" />
+    <span class="logo-text">Serv<em>i</em></span>
+  </a>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="btn-en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" id="btn-fr" onclick="setLang('fr')">FR</button>
+      <button class="lang-btn" id="btn-ar" onclick="setLang('ar')">ع</button>
+    </div>
+    <a href="index.html" class="nav-back">
+      <span class="en-i">Back to Home</span>
+      <span class="ar-i">العودة للرئيسية</span>
+      <span class="fr-i">Retour</span>
+    </a>
+  </div>
+</nav>
+
+<!-- ── HERO ────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+      <span class="en-i">Student Earning Potential</span>
+      <span class="ar-i">إمكانيات الكسب للطلاب</span>
+      <span class="fr-i">Potentiel de revenu</span>
+    </div>
+    <h1 class="hero-h1">
+      <span class="en">How Much Can You <span class="hi">Earn?</span></span>
+      <span class="ar">كم يمكنك أن <span class="hi">تكسب؟</span></span>
+      <span class="fr">Combien pouvez-vous <span class="hi">gagner?</span></span>
+    </h1>
+    <p class="hero-sub">
+      <span class="en">Tell us about your schedule and skills, and we'll calculate your monthly freelance income potential on Servi.</span>
+      <span class="ar">أخبرنا عن جدولك ومهاراتك، وسنحسب إمكانيات دخلك الشهري كمستقل عبر Servi.</span>
+      <span class="fr">Parlez-nous de votre emploi du temps et vos compétences, et nous calculerons votre revenu mensuel potentiel sur Servi.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ── CALCULATOR ──────────────────────────────── -->
+<section class="calc-section">
+  <div class="calc-card">
+
+    <!-- Path Toggle -->
+    <div class="path-toggle">
+      <button class="path-btn active" id="pathScheduleBtn" onclick="setPath('schedule')">
+        <span class="en-i">I know my schedule</span>
+        <span class="ar-i">أعرف جدولي</span>
+        <span class="fr-i">Je connais mon emploi du temps</span>
+      </button>
+      <button class="path-btn" id="pathDirectBtn" onclick="setPath('direct')">
+        <span class="en-i">I know my hours</span>
+        <span class="ar-i">أعرف ساعاتي</span>
+        <span class="fr-i">Je connais mes heures</span>
+      </button>
+    </div>
+
+    <!-- PATH A: Schedule-based -->
+    <div class="calc-grid path-schedule active" id="pathSchedule">
+
+      <!-- College Hours -->
+      <div class="input-group">
+        <label class="input-label">
+          <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/></svg>
+          <span class="en-i">College Hours / Week</span>
+          <span class="ar-i">ساعات الجامعة / أسبوع</span>
+          <span class="fr-i">Heures de cours / sem.</span>
+        </label>
+        <p class="input-hint">
+          <span class="en-i">Time spent in classes, labs, and commuting</span>
+          <span class="ar-i">الوقت في المحاضرات والمختبرات والتنقل</span>
+          <span class="fr-i">Cours, labos et trajet</span>
+        </p>
+        <div class="slider-wrap">
+          <input type="range" id="collegeHours" min="6" max="45" value="20" oninput="updateSlider(this, 'collegeVal', 'hrs')" />
+          <span class="slider-val" id="collegeVal">20 hrs</span>
+        </div>
+      </div>
+
+      <!-- Study Hours -->
+      <div class="input-group">
+        <label class="input-label">
+          <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+          <span class="en-i">Study Hours / Week</span>
+          <span class="ar-i">ساعات الدراسة / أسبوع</span>
+          <span class="fr-i">Heures d'étude / sem.</span>
+        </label>
+        <p class="input-hint">
+          <span class="en-i">Homework, projects, exam prep</span>
+          <span class="ar-i">الواجبات والمشاريع والتحضير للامتحانات</span>
+          <span class="fr-i">Devoirs, projets, révisions</span>
+        </p>
+        <div class="slider-wrap">
+          <input type="range" id="studyHours" min="0" max="40" value="15" oninput="updateSlider(this, 'studyVal', 'hrs')" />
+          <span class="slider-val" id="studyVal">15 hrs</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PATH B: Direct hours -->
+    <div class="path-direct" id="pathDirect">
+      <label class="input-label">
+        <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span class="en-i">Hours You Want to Freelance / Week</span>
+        <span class="ar-i">ساعات العمل الحر / أسبوع</span>
+        <span class="fr-i">Heures de freelance / sem.</span>
+      </label>
+      <p class="input-hint">
+        <span class="en-i">How many hours per week can you dedicate?</span>
+        <span class="ar-i">كم ساعة أسبوعياً يمكنك تخصيصها؟</span>
+        <span class="fr-i">Combien d'heures par semaine pouvez-vous consacrer ?</span>
+      </p>
+      <div class="slider-wrap">
+        <input type="range" id="directHours" min="1" max="50" value="15" oninput="updateSlider(this, 'directVal', 'hrs')" />
+        <span class="slider-val" id="directVal">15 hrs</span>
+      </div>
+    </div>
+
+    <div class="calc-grid">
+
+      <!-- Service Type -->
+      <div class="input-group">
+        <label class="input-label">
+          <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+          <span class="en-i">Service You'll Offer</span>
+          <span class="ar-i">الخدمة التي ستقدمها</span>
+          <span class="fr-i">Service proposé</span>
+        </label>
+        <div class="select-wrap">
+          <select id="serviceType">
+            <option value="tutoring"></option>
+            <option value="babysitting"></option>
+            <option value="sportscoach"></option>
+            <option value="musicart"></option>
+            <option value="therapist"></option>
+            <option value="caregiver"></option>
+            <option value="petsitter"></option>
+            <option value="nurse"></option>
+            <option value="beauty"></option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Experience Level -->
+      <div class="input-group">
+        <label class="input-label">
+          <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <span class="en-i">Your Experience Level</span>
+          <span class="ar-i">مستوى خبرتك</span>
+          <span class="fr-i">Votre niveau d'expérience</span>
+        </label>
+        <div class="exp-cards">
+          <label class="exp-card active" onclick="selectExp(this, 'beginner')">
+            <input type="radio" name="experience" value="beginner" checked />
+            <div class="exp-icon">🌱</div>
+            <div>
+              <div class="exp-title">
+                <span class="en-i">Beginner</span>
+                <span class="ar-i">مبتدئ</span>
+                <span class="fr-i">Débutant</span>
+              </div>
+              <div class="exp-desc">
+                <span class="en-i">Just starting out, eager to learn</span>
+                <span class="ar-i">بداية جديدة، حريص على التعلم</span>
+                <span class="fr-i">Débutant, motivé</span>
+              </div>
+            </div>
+          </label>
+          <label class="exp-card" onclick="selectExp(this, 'intermediate')">
+            <input type="radio" name="experience" value="intermediate" />
+            <div class="exp-icon">⚡</div>
+            <div>
+              <div class="exp-title">
+                <span class="en-i">Intermediate</span>
+                <span class="ar-i">متوسط</span>
+                <span class="fr-i">Intermédiaire</span>
+              </div>
+              <div class="exp-desc">
+                <span class="en-i">Some experience, solid skills</span>
+                <span class="ar-i">بعض الخبرة، مهارات جيدة</span>
+                <span class="fr-i">Expérience modérée</span>
+              </div>
+            </div>
+          </label>
+          <label class="exp-card" onclick="selectExp(this, 'expert')">
+            <input type="radio" name="experience" value="expert" />
+            <div class="exp-icon">🏆</div>
+            <div>
+              <div class="exp-title">
+                <span class="en-i">Expert</span>
+                <span class="ar-i">خبير</span>
+                <span class="fr-i">Expert</span>
+              </div>
+              <div class="exp-desc">
+                <span class="en-i">Highly skilled, proven track record</span>
+                <span class="ar-i">مهارات عالية وسجل حافل</span>
+                <span class="fr-i">Très qualifié, reconnu</span>
+              </div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Calculate Button -->
+    <button class="calc-btn" onclick="calculate()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="16" y2="18"/></svg>
+      <span class="en-i">Calculate My Earnings</span>
+      <span class="ar-i">احسب أرباحي</span>
+      <span class="fr-i">Calculer mes revenus</span>
+    </button>
+
+    <!-- ── RESULTS ──────────────────────────────── -->
+    <div class="results" id="results">
+
+      <div class="results-header">
+        <h2>
+          <span class="en">Your Earning Potential</span>
+          <span class="ar">إمكانيات دخلك</span>
+          <span class="fr">Votre potentiel de revenu</span>
+        </h2>
+      </div>
+
+      <div class="results-grid">
+        <div class="result-card hours">
+          <div class="result-label">
+            <span class="en-i">Available Hours</span>
+            <span class="ar-i">الساعات المتاحة</span>
+            <span class="fr-i">Heures disponibles</span>
+          </div>
+          <div class="result-value" id="resHours">--</div>
+          <div class="result-unit">
+            <span class="en-i">hrs / week</span>
+            <span class="ar-i">ساعة / أسبوع</span>
+            <span class="fr-i">hrs / sem.</span>
+          </div>
+        </div>
+        <div class="result-card rate">
+          <div class="result-label">
+            <span class="en-i">Hourly Rate</span>
+            <span class="ar-i">السعر بالساعة</span>
+            <span class="fr-i">Taux horaire</span>
+          </div>
+          <div class="result-value" id="resRate">--</div>
+          <div class="result-unit">USD /
+            <span class="en-i">hour</span>
+            <span class="ar-i">ساعة</span>
+            <span class="fr-i">heure</span>
+          </div>
+        </div>
+        <div class="result-card income">
+          <div class="result-label">
+            <span class="en-i">Weekly Income</span>
+            <span class="ar-i">الدخل الأسبوعي</span>
+            <span class="fr-i">Revenu hebdo.</span>
+          </div>
+          <div class="result-value" id="resWeekly">--</div>
+          <div class="result-unit">USD /
+            <span class="en-i">week</span>
+            <span class="ar-i">أسبوع</span>
+            <span class="fr-i">sem.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Big monthly income display -->
+      <div class="income-hero">
+        <div class="income-hero-label">
+          <span class="en-i">Estimated Monthly Income</span>
+          <span class="ar-i">الدخل الشهري المقدّر</span>
+          <span class="fr-i">Revenu mensuel estimé</span>
+        </div>
+        <div class="income-hero-value" id="resMonthly">--</div>
+        <div class="income-hero-sub">USD /
+          <span class="en-i">month</span>
+          <span class="ar-i">شهر</span>
+          <span class="fr-i">mois</span>
+        </div>
+
+        <div class="income-bar-wrap">
+          <div class="income-bar-track">
+            <div class="income-bar-fill" id="incomeBar"></div>
+          </div>
+          <div class="income-bar-labels">
+            <span id="barLow">$0</span>
+            <span id="barHigh">$2,000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Motivation -->
+      <div class="motivation" id="motivation">
+        <p id="motText"></p>
+      </div>
+
+      <!-- CTA -->
+      <div class="results-cta">
+        <a href="index.html#join">
+          <span class="en-i">Start Earning on Servi</span>
+          <span class="ar-i">ابدأ الكسب عبر Servi</span>
+          <span class="fr-i">Commencez sur Servi</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTER ──────────────────────────────────── -->
+<footer class="footer">
+  <p>
+    <span class="en-i">&copy; 2026 Servi. All rights reserved.</span>
+    <span class="fr-i">&copy; 2026 Servi. Tous droits réservés.</span>
+    <span class="ar-i">&copy; 2026 Servi. جميع الحقوق محفوظة.</span>
+  </p>
+</footer>
+
+<script>
+  /* ── Rate Data (USD/hr) by service + experience ── */
+  const RATES = {
+    tutoring:     { beginner: [8,  13], intermediate: [15, 24], expert: [26, 45] },
+    babysitting:  { beginner: [5,   8], intermediate: [10, 14], expert: [16, 25] },
+    sportscoach:  { beginner: [10, 16], intermediate: [18, 28], expert: [32, 50] },
+    musicart:     { beginner: [8,  13], intermediate: [16, 26], expert: [30, 50] },
+    therapist:    { beginner: [12, 18], intermediate: [22, 33], expert: [37, 60] },
+    caregiver:    { beginner: [6,   9], intermediate: [11, 16], expert: [19, 28] },
+    petsitter:    { beginner: [3,   5], intermediate: [6,   8], expert: [9,  12] },
+    nurse:        { beginner: [12, 18], intermediate: [22, 33], expert: [37, 55] },
+    beauty:       { beginner: [5,   8], intermediate: [10, 14], expert: [16, 22] }
+  };
+
+  /* ── Service names by language ── */
+  const SERVICE_NAMES = {
+    en: { tutoring: 'Tutoring', babysitting: 'Babysitting & Nannying', sportscoach: 'Sports Coach & Fitness Trainer', musicart: 'Music & Art Instructor', therapist: 'Home-Based Therapist', caregiver: 'Caregiver', petsitter: 'Pet Sitter', nurse: 'Nurse', beauty: 'Beauty Services' },
+    ar: { tutoring: 'دروس خصوصية', babysitting: 'رعاية أطفال ومربيات', sportscoach: 'مدرب رياضي ولياقة', musicart: 'مدرب موسيقى وفنون', therapist: 'معالج منزلي', caregiver: 'مقدم رعاية', petsitter: 'رعاية حيوانات', nurse: 'تمريض', beauty: 'خدمات تجميل' },
+    fr: { tutoring: 'Tutorat', babysitting: 'Garde d\'enfants & Nounous', sportscoach: 'Coach sportif & Fitness', musicart: 'Musique & Arts', therapist: 'Thérapeute à domicile', caregiver: 'Aide-soignant', petsitter: 'Garde d\'animaux', nurse: 'Infirmier(ère)', beauty: 'Services beauté' }
+  };
+
+  /* ── Motivation messages ── */
+  const MOTIVATIONS = {
+    en: [
+      { min: 0,   msg: "Every expert was once a beginner. Start small, grow big!" },
+      { min: 200,  msg: "Nice! That covers your phone bill and more. Keep building!" },
+      { min: 500,  msg: "Solid income for a student! You're on the path to financial independence." },
+      { min: 1000, msg: "Impressive! You could be earning more than many entry-level jobs." },
+      { min: 2000, msg: "Outstanding potential! You're set to build serious savings." }
+    ],
+    ar: [
+      { min: 0,   msg: "كل خبير كان مبتدئاً. ابدأ صغيراً، واحلم كبيراً!" },
+      { min: 200,  msg: "ممتاز! هذا يغطي فاتورة هاتفك وأكثر. استمر!" },
+      { min: 500,  msg: "دخل جيد لطالب! أنت على طريق الاستقلال المالي." },
+      { min: 1000, msg: "مبهر! قد تكسب أكثر من كثير من الوظائف." },
+      { min: 2000, msg: "إمكانيات استثنائية! يمكنك بناء مدخرات جدية." }
+    ],
+    fr: [
+      { min: 0,   msg: "Chaque expert a été débutant. Commencez petit, visez grand !" },
+      { min: 200,  msg: "Pas mal ! De quoi couvrir vos dépenses courantes." },
+      { min: 500,  msg: "Un bon revenu étudiant ! Vous êtes sur la bonne voie." },
+      { min: 1000, msg: "Impressionnant ! Plus que beaucoup de premiers emplois." },
+      { min: 2000, msg: "Potentiel exceptionnel ! De vraies économies en vue." }
+    ]
+  };
+
+  /* ── Populate select options based on language ── */
+  function populateSelect() {
+    const lang = document.documentElement.getAttribute('data-lang') || 'en';
+    const sel = document.getElementById('serviceType');
+    const currentVal = sel.value;
+    const names = SERVICE_NAMES[lang];
+    sel.querySelectorAll('option').forEach(opt => {
+      opt.textContent = names[opt.value] || opt.value;
+    });
+    sel.value = currentVal;
+  }
+
+  /* ── Language Toggle ── */
+  function setLang(lang) {
+    const html = document.documentElement;
+    html.setAttribute('data-lang', lang);
+    html.lang = lang;
+    html.dir  = lang === 'ar' ? 'rtl' : 'ltr';
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+    document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
+    populateSelect();
+  }
+
+  /* ── Path Toggle ── */
+  let currentPath = 'schedule';
+  function setPath(path) {
+    currentPath = path;
+    document.getElementById('pathScheduleBtn').classList.toggle('active', path === 'schedule');
+    document.getElementById('pathDirectBtn').classList.toggle('active', path === 'direct');
+    document.getElementById('pathSchedule').classList.toggle('active', path === 'schedule');
+    document.getElementById('pathDirect').classList.toggle('active', path === 'direct');
+  }
+
+  /* ── Slider display ── */
+  function updateSlider(el, valId, unit) {
+    document.getElementById(valId).textContent = el.value + ' ' + unit;
+  }
+
+  /* ── Experience selection ── */
+  function selectExp(card, value) {
+    document.querySelectorAll('.exp-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+    card.querySelector('input').checked = true;
+  }
+
+  /* ── Main Calculation ── */
+  function calculate() {
+    const service    = document.getElementById('serviceType').value;
+    const experience = document.querySelector('input[name="experience"]:checked').value;
+    const lang       = document.documentElement.getAttribute('data-lang') || 'en';
+
+    let workableHrs;
+    if (currentPath === 'schedule') {
+      const collegeHrs = parseInt(document.getElementById('collegeHours').value);
+      const studyHrs   = parseInt(document.getElementById('studyHours').value);
+      const totalWeekHrs = 168;
+      const sleepHrs = 56;       // 8 hrs/day
+      const personalHrs = 21;    // 3 hrs/day
+      const freeHrs = totalWeekHrs - sleepHrs - personalHrs - collegeHrs - studyHrs;
+      workableHrs = Math.max(0, freeHrs);
+    } else {
+      workableHrs = parseInt(document.getElementById('directHours').value);
+    }
+
+    // Get rate range
+    const [rateLow, rateHigh] = RATES[service][experience];
+
+    // Weekly income
+    const weeklyLow  = workableHrs * rateLow;
+    const weeklyHigh = workableHrs * rateHigh;
+
+    // Monthly income (4.33 weeks/month)
+    const monthlyLow  = Math.round(weeklyLow * 4.33);
+    const monthlyHigh = Math.round(weeklyHigh * 4.33);
+
+    // Update results
+    document.getElementById('resHours').textContent = workableHrs;
+    document.getElementById('resRate').textContent = '$' + rateLow + ' – $' + rateHigh;
+    document.getElementById('resWeekly').textContent = '$' + weeklyLow.toLocaleString() + ' – $' + weeklyHigh.toLocaleString();
+    document.getElementById('resMonthly').textContent = '$' + monthlyLow.toLocaleString() + ' – $' + monthlyHigh.toLocaleString();
+
+    // Income bar — scale relative to max possible ($2,200)
+    const maxPossible = 2200;
+    const barPct = Math.min((monthlyHigh / maxPossible) * 100, 100);
+    document.getElementById('incomeBar').style.width = barPct + '%';
+    document.getElementById('barLow').textContent = '$' + monthlyLow.toLocaleString();
+    document.getElementById('barHigh').textContent = '$' + monthlyHigh.toLocaleString();
+
+    // Motivation message
+    const msgs = MOTIVATIONS[lang];
+    let motMsg = msgs[0].msg;
+    for (const m of msgs) {
+      if (monthlyHigh >= m.min) motMsg = m.msg;
+    }
+    document.getElementById('motText').textContent = motMsg;
+
+    // Show results with animation
+    const results = document.getElementById('results');
+    results.classList.remove('show');
+    // Force reflow to restart animation
+    void results.offsetWidth;
+    results.classList.add('show');
+
+    // Scroll to results
+    setTimeout(() => {
+      results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
+
+  /* ── Init ── */
+  populateSelect();
+</script>
+
+</body>
+</html>

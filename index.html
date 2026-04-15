@@ -62,12 +62,7 @@
       border-bottom: 1px solid rgba(226,232,240,.6);
     }
     .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-mark {
-      width: 40px; height: 40px; border-radius: 12px;
-      background: linear-gradient(135deg, var(--teal), var(--teal-light));
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; font-size: 20px; font-weight: 900;
-    }
+    .logo-img { width: 40px; height: 40px; object-fit: contain; }
     .logo-text { font-size: 22px; font-weight: 900; color: var(--navy); letter-spacing: -.5px; }
     .logo-text em { font-style: normal; color: var(--teal); }
     .nav-right { display: flex; align-items: center; gap: 14px; }
@@ -552,7 +547,7 @@
 <!-- ══ NAVBAR ══════════════════════════════════════ -->
 <nav class="nav">
   <a href="#" class="logo">
-    <div class="logo-mark">S</div>
+    <img src="logo.png" alt="Servi" class="logo-img">
     <div class="logo-text">Servi</div>
   </a>
   <div class="nav-right">
@@ -934,7 +929,7 @@
 
 <!-- ══ FOOTER ═══════════════════════════════════════ -->
 <footer>
-  <div class="footer-logo">Servi</div>
+  <div class="footer-logo"><img src="logo.png" alt="Servi" style="width:44px;height:44px;object-fit:contain;vertical-align:middle;margin-right:8px;">Servi</div>
   <div class="footer-motif">
     <span class="en-i">TRUST. TAP. DONE.</span>
     <span class="fr-i">CONFIANCE. CLIC. FAIT.</span>

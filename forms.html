@@ -60,7 +60,7 @@
     .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
     .logo-img { width: 40px; height: 40px; object-fit: contain; }
     .logo-text { font-size: 22px; font-weight: 900; color: #000; letter-spacing: -.5px; }
-    .logo-text em { font-style: normal; color: var(--teal); }
+    .logo-text em { font-style: normal; color: #000; }
     .nav-right { display: flex; align-items: center; gap: 14px; }
     .lang-toggle { display: flex; background: var(--bg-light); border-radius: 24px; padding: 4px; gap: 2px; }
     .lang-btn {
@@ -100,10 +100,7 @@
       font-size: clamp(24px, 5vw, 36px); font-weight: 900; color: var(--text-dark);
       margin-bottom: 8px;
     }
-    .page-header h1 .hi {
-      background: linear-gradient(135deg, var(--teal), var(--teal-light));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
+    .page-header h1 .hi { color: var(--text-dark); }
     .page-header p {
       font-size: 15px; color: var(--text-mid); font-weight: 500; line-height: 1.6;
     }

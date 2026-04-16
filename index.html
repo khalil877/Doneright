@@ -79,6 +79,51 @@
       border-radius: 24px; background: rgba(212,84,30,.08);
     }
     .nav-link:hover { background: rgba(212,84,30,.15); transform: translateY(-1px); }
+
+    /* ── EARNINGS CTA BANNER ─────────────────────── */
+    .earnings-cta {
+      padding: 64px 32px;
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+      position: relative; overflow: hidden;
+    }
+    .earnings-cta::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(212,84,30,.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .earnings-cta::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 20% 80%, rgba(240,160,48,.08) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .earnings-cta-inner {
+      max-width: 700px; margin: 0 auto; text-align: center; position: relative; z-index: 1;
+    }
+    .earnings-cta-icon {
+      width: 56px; height: 56px; margin: 0 auto 20px;
+      background: rgba(255,255,255,.1); border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .earnings-cta-icon svg { width: 28px; height: 28px; color: var(--gold); }
+    .earnings-cta h2 {
+      font-size: clamp(24px, 4vw, 40px); font-weight: 900; color: #fff;
+      line-height: 1.2; margin-bottom: 14px;
+    }
+    .earnings-cta p {
+      font-size: clamp(15px, 2vw, 18px); color: rgba(255,255,255,.6);
+      font-weight: 500; line-height: 1.7; margin-bottom: 28px;
+    }
+    .earnings-cta-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 36px; border-radius: 50px;
+      font-family: 'Cairo', sans-serif; font-size: 17px; font-weight: 800;
+      text-decoration: none; color: var(--navy-dark);
+      background: linear-gradient(135deg, var(--gold), var(--teal-light));
+      box-shadow: 0 8px 32px rgba(240,160,48,.35);
+      transition: all .3s;
+    }
+    .earnings-cta-btn:hover { transform: translateY(-3px); box-shadow: 0 14px 44px rgba(240,160,48,.45); }
+    .earnings-cta-btn svg { width: 20px; height: 20px; }
     .nav-waitlist {
       padding: 10px 22px; background: var(--teal); color: #fff;
       border-radius: 24px; font-family: 'Cairo', sans-serif;
@@ -812,6 +857,31 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ══ EARNINGS CTA ═════════════════════════════════ -->
+<section class="earnings-cta">
+  <div class="earnings-cta-inner reveal">
+    <div class="earnings-cta-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+    </div>
+    <h2>
+      <span class="en">Discover Your Earnings Potential</span>
+      <span class="ar">اكتشف إمكانيات دخلك</span>
+      <span class="fr">Découvrez votre potentiel de revenu</span>
+    </h2>
+    <p>
+      <span class="en">Find out how much you could earn offering your skills on Servi. Pick your service, set your availability, and see your estimated monthly income.</span>
+      <span class="ar">اكتشف كم يمكنك أن تكسب من خلال تقديم مهاراتك عبر Servi. اختر خدمتك، حدد أوقات فراغك، وشاهد دخلك الشهري المقدّر.</span>
+      <span class="fr">Découvrez combien vous pourriez gagner en offrant vos compétences sur Servi. Choisissez votre service, définissez vos disponibilités et estimez vos revenus mensuels.</span>
+    </p>
+    <a href="calculator.html" class="earnings-cta-btn">
+      <span class="en-i">Calculate Your Earnings</span>
+      <span class="ar-i">احسب أرباحك</span>
+      <span class="fr-i">Calculez vos revenus</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
   </div>
 </section>
 

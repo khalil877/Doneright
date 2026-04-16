@@ -73,6 +73,12 @@
       cursor: pointer; color: var(--text-mid); background: transparent; transition: all .2s;
     }
     .lang-btn.active { background: #fff; color: var(--navy); box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+    .nav-link {
+      padding: 10px 18px; color: var(--navy); font-family: 'Cairo', sans-serif;
+      font-size: 14px; font-weight: 700; text-decoration: none; transition: all .2s;
+      border-radius: 24px; background: rgba(212,84,30,.08);
+    }
+    .nav-link:hover { background: rgba(212,84,30,.15); transform: translateY(-1px); }
     .nav-waitlist {
       padding: 10px 22px; background: var(--teal); color: #fff;
       border-radius: 24px; font-family: 'Cairo', sans-serif;
@@ -455,6 +461,7 @@
       .hero-pill { font-size: 13px; padding: 8px 14px; }
       .path-card { padding: 32px 24px; }
       .nav-waitlist { display: none; }
+      .nav-link { font-size: 12px; padding: 8px 14px; }
       .hero { padding: 90px 20px 48px; }
       .sec { padding: 48px 20px; }
       .paths-sec { padding: 48px 20px; }
@@ -556,6 +563,11 @@
       <button class="lang-btn"        id="btn-fr" onclick="setLang('fr')">FR</button>
       <button class="lang-btn"        id="btn-ar" onclick="setLang('ar')">عر</button>
     </div>
+    <a href="calculator.html" class="nav-link">
+      <span class="en-i">Earn Calculator</span>
+      <span class="fr-i">Calculateur</span>
+      <span class="ar-i">حاسبة الدخل</span>
+    </a>
     <a href="#join" class="nav-waitlist">
       <span class="en-i">Join Waitlist</span>
       <span class="fr-i">Rejoindre</span>

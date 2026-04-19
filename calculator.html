@@ -216,8 +216,7 @@
     .service-info { flex: 1; min-width: 0; }
     .service-name {
       font-size: 12.5px; font-weight: 800; color: var(--navy);
-      line-height: 1.2; margin-bottom: 1px;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      line-height: 1.25; margin-bottom: 2px;
     }
     .service-rate {
       font-size: 11px; font-weight: 700; color: var(--teal);
@@ -761,15 +760,15 @@
 
   /* ── Service names by language ── */
   const SERVICE_NAMES = {
-    en: { tutoring: 'Tutoring', babysitting: 'Babysitting & Nannying', sportscoach: 'Sports & Fitness', musicart: 'Music & Art', therapist: 'Home Therapist', caregiver: 'Caregiver', petsitter: 'Pet Sitter', nurse: 'Nurse', beauty: 'Beauty Services' },
-    ar: { tutoring: 'دروس خصوصية', babysitting: 'رعاية أطفال', sportscoach: 'رياضة ولياقة', musicart: 'موسيقى وفنون', therapist: 'معالج منزلي', caregiver: 'مقدم رعاية', petsitter: 'رعاية حيوانات', nurse: 'تمريض', beauty: 'خدمات تجميل' },
-    fr: { tutoring: 'Tutorat', babysitting: 'Garde d\'enfants', sportscoach: 'Sport & Fitness', musicart: 'Musique & Arts', therapist: 'Thérapeute', caregiver: 'Aide-soignant', petsitter: 'Garde d\'animaux', nurse: 'Infirmier(ère)', beauty: 'Services beauté' }
+    en: { tutoring: 'Tutors', babysitting: 'Babysitters & Nannies', sportscoach: 'Sport Coaches & Fitness Trainers', musicart: 'Music & Art Instructors', therapist: 'Home-Based Therapists', caregiver: 'Caregivers', petsitter: 'Pet Sitters', nurse: 'Nurses', beauty: 'Beauty Services' },
+    ar: { tutoring: 'مدرّسون', babysitting: 'جليسات ومربيات', sportscoach: 'مدربو رياضة ولياقة', musicart: 'مدرسو موسيقى وفنون', therapist: 'معالجون منزليون', caregiver: 'مقدمو رعاية', petsitter: 'رعاة حيوانات', nurse: 'ممرضون', beauty: 'خدمات تجميل' },
+    fr: { tutoring: 'Tuteurs', babysitting: 'Baby-sitters & Nounous', sportscoach: 'Coachs sportifs & Fitness', musicart: 'Instructeurs Musique & Arts', therapist: 'Thérapeutes à domicile', caregiver: 'Aide-soignants', petsitter: 'Garde d\'animaux', nurse: 'Infirmier(ère)s', beauty: 'Services beauté' }
   };
 
-  /* ── Service emojis ── */
+  /* ── Service emojis (from reference site) ── */
   const SERVICE_EMOJIS = {
-    tutoring: '🎓', babysitting: '👶', sportscoach: '💪', musicart: '🎨',
-    therapist: '🧘', caregiver: '🤝', petsitter: '🐾', nurse: '🩺', beauty: '💅'
+    tutoring: '📚', babysitting: '👶', sportscoach: '⚽', musicart: '🎵',
+    therapist: '🧠', caregiver: '🤝', petsitter: '🐾', nurse: '🏥', beauty: '💅'
   };
 
   /* ── Order services are displayed ── */

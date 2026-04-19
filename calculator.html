@@ -194,26 +194,76 @@
       padding: 6px 12px;
     }
 
-    /* Dropdown */
-    .select-wrap {
+    /* Service Cards */
+    .service-cards {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+    .service-card {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px; border-radius: 14px;
+      border: 2px solid var(--border); background: var(--bg-light);
+      cursor: pointer; transition: all .2s;
       position: relative;
     }
-    .select-wrap select {
-      width: 100%; padding: 14px 18px; font-family: 'Cairo', sans-serif;
-      font-size: 15px; font-weight: 600; color: var(--text-dark);
+    .service-card:hover { border-color: rgba(212,84,30,.3); transform: translateY(-1px); }
+    .service-card.active {
+      border-color: var(--teal);
+      background: rgba(212,84,30,.06);
+      box-shadow: 0 4px 16px rgba(212,84,30,.15);
+    }
+    .service-card input { display: none; }
+    .service-emoji { font-size: 24px; flex-shrink: 0; }
+    .service-info { flex: 1; min-width: 0; }
+    .service-name {
+      font-size: 14px; font-weight: 800; color: var(--navy);
+      line-height: 1.2; margin-bottom: 2px;
+    }
+    .service-rate {
+      font-size: 12px; font-weight: 700; color: var(--teal);
+    }
+    .service-check {
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 2px solid var(--border); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .2s;
+    }
+    .service-card.active .service-check {
+      border-color: var(--teal);
+      background: var(--teal);
+    }
+    .service-card.active .service-check::after {
+      content: ''; width: 8px; height: 8px; border-radius: 50%; background: #fff;
+    }
+
+    /* Custom Rate Input */
+    .rate-input-wrap {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: 14px;
       background: var(--bg-light); border: 2px solid var(--border);
-      border-radius: 14px; outline: none; cursor: pointer;
-      appearance: none; -webkit-appearance: none;
       transition: border-color .2s;
     }
-    .select-wrap select:focus { border-color: var(--teal); }
-    .select-wrap::after {
-      content: ''; position: absolute; right: 16px; top: 50%; transform: translateY(-50%);
-      width: 0; height: 0;
-      border-left: 6px solid transparent; border-right: 6px solid transparent;
-      border-top: 6px solid var(--text-mid);
-      pointer-events: none;
+    .rate-input-wrap:focus-within { border-color: var(--teal); }
+    .rate-input-prefix {
+      font-size: 18px; font-weight: 800; color: var(--teal);
     }
+    .rate-input-wrap input[type="number"] {
+      flex: 1; border: none; background: transparent; outline: none;
+      font-family: 'Cairo', sans-serif; font-size: 18px; font-weight: 700;
+      color: var(--text-dark); -moz-appearance: textfield;
+    }
+    .rate-input-wrap input[type="number"]::-webkit-outer-spin-button,
+    .rate-input-wrap input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none; margin: 0;
+    }
+    .rate-input-suffix {
+      font-size: 13px; font-weight: 600; color: var(--text-light);
+    }
+    .rate-reset {
+      background: none; border: none; cursor: pointer; padding: 4px 8px;
+      font-family: 'Cairo', sans-serif; font-size: 12px; font-weight: 700;
+      color: var(--text-mid); border-radius: 8px; transition: all .2s;
+    }
+    .rate-reset:hover { background: rgba(0,0,0,.05); color: var(--teal); }
 
     /* Experience Cards */
     .exp-cards {
@@ -266,46 +316,53 @@
     }
 
     .results-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
       margin-bottom: 24px;
     }
 
     .result-card {
-      padding: 24px 16px; border-radius: var(--radius);
+      padding: 20px 12px; border-radius: var(--radius);
       text-align: center; position: relative; overflow: hidden;
       animation: countUp .4s ease both;
     }
     .result-card:nth-child(1) { animation-delay: .1s; }
-    .result-card:nth-child(2) { animation-delay: .2s; }
-    .result-card:nth-child(3) { animation-delay: .3s; }
+    .result-card:nth-child(2) { animation-delay: .15s; }
+    .result-card:nth-child(3) { animation-delay: .2s; }
+    .result-card:nth-child(4) { animation-delay: .25s; }
 
-    .result-card.hours {
+    .result-card.rate {
       background: linear-gradient(135deg, #EDF8FB, #E0F2F6);
       border: 1px solid rgba(45,74,122,.15);
     }
-    .result-card.rate {
+    .result-card.daily {
       background: linear-gradient(135deg, #FFF4EC, #FFE8D6);
       border: 1px solid rgba(212,84,30,.15);
     }
-    .result-card.income {
+    .result-card.weekly {
       background: linear-gradient(135deg, #FFF8ED, #FFF0D4);
       border: 1px solid rgba(240,160,48,.2);
     }
+    .result-card.yearly {
+      background: linear-gradient(135deg, #F0F4FF, #E0E9FF);
+      border: 1px solid rgba(45,74,122,.2);
+    }
 
     .result-label {
-      font-size: 12px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 1px; margin-bottom: 8px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: 6px;
     }
-    .result-card.hours .result-label { color: var(--navy); }
-    .result-card.rate .result-label { color: var(--teal); }
-    .result-card.income .result-label { color: var(--gold-dark); }
+    .result-card.rate .result-label { color: var(--navy); }
+    .result-card.daily .result-label { color: var(--teal); }
+    .result-card.weekly .result-label { color: var(--gold-dark); }
+    .result-card.yearly .result-label { color: var(--navy); }
 
     .result-value {
-      font-size: clamp(24px, 4vw, 32px); font-weight: 900; line-height: 1.2;
+      font-size: clamp(18px, 2.6vw, 24px); font-weight: 900; line-height: 1.2;
     }
-    .result-card.hours .result-value { color: var(--navy-dark); }
-    .result-card.rate .result-value { color: var(--teal); }
-    .result-card.income .result-value { color: var(--gold-dark); }
+    .result-card.rate .result-value { color: var(--navy-dark); }
+    .result-card.daily .result-value { color: var(--teal); }
+    .result-card.weekly .result-value { color: var(--gold-dark); }
+    .result-card.yearly .result-value { color: var(--navy-dark); }
 
     .result-unit {
       font-size: 12px; font-weight: 600; color: var(--text-light); margin-top: 4px;
@@ -394,27 +451,6 @@
     }
     .results-cta a:hover { transform: translateY(-3px); box-shadow: 0 14px 44px rgba(212,84,30,.45); }
 
-    /* ── PATH TOGGLE ──────────────────────────────── */
-    .path-toggle {
-      display: flex; background: var(--bg-light); border-radius: 16px;
-      padding: 5px; margin-bottom: 32px; gap: 4px;
-    }
-    .path-btn {
-      flex: 1; padding: 14px 16px; border-radius: 12px; border: none;
-      font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 700;
-      cursor: pointer; color: var(--text-mid); background: transparent;
-      transition: all .25s; text-align: center;
-    }
-    .path-btn.active {
-      background: #fff; color: var(--navy);
-      box-shadow: 0 2px 12px rgba(0,0,0,.08);
-    }
-    .path-btn:hover:not(.active) { color: var(--navy); }
-
-    .path-schedule, .path-direct { display: none; }
-    .path-schedule.active, .path-direct.active { display: grid; }
-    .path-direct.active { display: flex; flex-direction: column; gap: 8px; margin-bottom: 32px; }
-
     /* ── FOOTER ───────────────────────────────────── */
     .footer {
       padding: 32px; text-align: center;
@@ -432,7 +468,8 @@
       .exp-cards { grid-template-columns: 1fr; gap: 8px; }
       .exp-card { display: flex; align-items: center; gap: 12px; text-align: left; padding: 14px 16px; }
       .exp-icon { margin-bottom: 0; font-size: 24px; }
-      .results-grid { grid-template-columns: 1fr; gap: 12px; }
+      .service-cards { grid-template-columns: 1fr; }
+      .results-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
       .income-hero { padding: 24px 16px; }
       .nav-back span { display: none; }
     }
@@ -491,65 +528,8 @@
 <section class="calc-section">
   <div class="calc-card">
 
-    <!-- Path Toggle -->
-    <div class="path-toggle">
-      <button class="path-btn active" id="pathScheduleBtn" onclick="setPath('schedule')">
-        <span class="en-i">I know my schedule</span>
-        <span class="ar-i">أعرف جدولي</span>
-        <span class="fr-i">Je connais mon emploi du temps</span>
-      </button>
-      <button class="path-btn" id="pathDirectBtn" onclick="setPath('direct')">
-        <span class="en-i">I know my hours</span>
-        <span class="ar-i">أعرف ساعاتي</span>
-        <span class="fr-i">Je connais mes heures</span>
-      </button>
-    </div>
-
-    <!-- PATH A: Schedule-based -->
-    <div class="calc-grid path-schedule active" id="pathSchedule">
-
-      <!-- College Hours -->
-      <div class="input-group">
-        <label class="input-label">
-          <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/></svg>
-          <span class="en-i">College Hours / Week</span>
-          <span class="ar-i">ساعات الجامعة / أسبوع</span>
-          <span class="fr-i">Heures de cours / sem.</span>
-        </label>
-        <p class="input-hint">
-          <span class="en-i">Time spent in classes, labs, and commuting</span>
-          <span class="ar-i">الوقت في المحاضرات والمختبرات والتنقل</span>
-          <span class="fr-i">Cours, labos et trajet</span>
-        </p>
-        <div class="slider-wrap">
-          <input type="range" id="collegeHours" min="6" max="45" value="20" oninput="updateSlider(this, 'collegeVal', 'hrs')" />
-          <span class="slider-val" id="collegeVal">20 hrs</span>
-        </div>
-      </div>
-
-      <!-- Study Hours -->
-      <div class="input-group">
-        <label class="input-label">
-          <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-          <span class="en-i">Study Hours / Week</span>
-          <span class="ar-i">ساعات الدراسة / أسبوع</span>
-          <span class="fr-i">Heures d'étude / sem.</span>
-        </label>
-        <p class="input-hint">
-          <span class="en-i">Homework, projects, exam prep</span>
-          <span class="ar-i">الواجبات والمشاريع والتحضير للامتحانات</span>
-          <span class="fr-i">Devoirs, projets, révisions</span>
-        </p>
-        <div class="slider-wrap">
-          <input type="range" id="studyHours" min="0" max="40" value="15" oninput="updateSlider(this, 'studyVal', 'hrs')" />
-          <span class="slider-val" id="studyVal">15 hrs</span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- PATH B: Direct hours -->
-    <div class="path-direct" id="pathDirect">
+    <!-- Hours per Week -->
+    <div class="input-group" style="margin-bottom: 28px;">
       <label class="input-label">
         <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         <span class="en-i">Hours You Want to Freelance / Week</span>
@@ -562,96 +542,107 @@
         <span class="fr-i">Combien d'heures par semaine pouvez-vous consacrer ?</span>
       </p>
       <div class="slider-wrap">
-        <input type="range" id="directHours" min="1" max="50" value="15" oninput="updateSlider(this, 'directVal', 'hrs')" />
-        <span class="slider-val" id="directVal">15 hrs</span>
+        <input type="range" id="weeklyHours" min="1" max="60" value="15" oninput="updateSlider(this, 'hoursVal', 'hrs')" />
+        <span class="slider-val" id="hoursVal">15 hrs</span>
       </div>
     </div>
 
-    <div class="calc-grid">
-
-      <!-- Service Type -->
-      <div class="input-group">
-        <label class="input-label">
-          <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-          <span class="en-i">Service You'll Offer</span>
-          <span class="ar-i">الخدمة التي ستقدمها</span>
-          <span class="fr-i">Service proposé</span>
+    <!-- Experience Level -->
+    <div class="input-group" style="margin-bottom: 28px;">
+      <label class="input-label">
+        <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <span class="en-i">Your Experience Level</span>
+        <span class="ar-i">مستوى خبرتك</span>
+        <span class="fr-i">Votre niveau d'expérience</span>
+      </label>
+      <div class="exp-cards">
+        <label class="exp-card active" onclick="selectExp(this, 'beginner')">
+          <input type="radio" name="experience" value="beginner" checked />
+          <div class="exp-icon">🌱</div>
+          <div>
+            <div class="exp-title">
+              <span class="en-i">Beginner</span>
+              <span class="ar-i">مبتدئ</span>
+              <span class="fr-i">Débutant</span>
+            </div>
+            <div class="exp-desc">
+              <span class="en-i">Just starting out, eager to learn</span>
+              <span class="ar-i">بداية جديدة، حريص على التعلم</span>
+              <span class="fr-i">Débutant, motivé</span>
+            </div>
+          </div>
         </label>
-        <div class="select-wrap">
-          <select id="serviceType">
-            <option value="tutoring"></option>
-            <option value="babysitting"></option>
-            <option value="sportscoach"></option>
-            <option value="musicart"></option>
-            <option value="therapist"></option>
-            <option value="caregiver"></option>
-            <option value="petsitter"></option>
-            <option value="nurse"></option>
-            <option value="beauty"></option>
-          </select>
-        </div>
-      </div>
-
-      <!-- Experience Level -->
-      <div class="input-group">
-        <label class="input-label">
-          <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <span class="en-i">Your Experience Level</span>
-          <span class="ar-i">مستوى خبرتك</span>
-          <span class="fr-i">Votre niveau d'expérience</span>
+        <label class="exp-card" onclick="selectExp(this, 'intermediate')">
+          <input type="radio" name="experience" value="intermediate" />
+          <div class="exp-icon">⚡</div>
+          <div>
+            <div class="exp-title">
+              <span class="en-i">Intermediate</span>
+              <span class="ar-i">متوسط</span>
+              <span class="fr-i">Intermédiaire</span>
+            </div>
+            <div class="exp-desc">
+              <span class="en-i">Some experience, solid skills</span>
+              <span class="ar-i">بعض الخبرة، مهارات جيدة</span>
+              <span class="fr-i">Expérience modérée</span>
+            </div>
+          </div>
         </label>
-        <div class="exp-cards">
-          <label class="exp-card active" onclick="selectExp(this, 'beginner')">
-            <input type="radio" name="experience" value="beginner" checked />
-            <div class="exp-icon">🌱</div>
-            <div>
-              <div class="exp-title">
-                <span class="en-i">Beginner</span>
-                <span class="ar-i">مبتدئ</span>
-                <span class="fr-i">Débutant</span>
-              </div>
-              <div class="exp-desc">
-                <span class="en-i">Just starting out, eager to learn</span>
-                <span class="ar-i">بداية جديدة، حريص على التعلم</span>
-                <span class="fr-i">Débutant, motivé</span>
-              </div>
+        <label class="exp-card" onclick="selectExp(this, 'expert')">
+          <input type="radio" name="experience" value="expert" />
+          <div class="exp-icon">🏆</div>
+          <div>
+            <div class="exp-title">
+              <span class="en-i">Expert</span>
+              <span class="ar-i">خبير</span>
+              <span class="fr-i">Expert</span>
             </div>
-          </label>
-          <label class="exp-card" onclick="selectExp(this, 'intermediate')">
-            <input type="radio" name="experience" value="intermediate" />
-            <div class="exp-icon">⚡</div>
-            <div>
-              <div class="exp-title">
-                <span class="en-i">Intermediate</span>
-                <span class="ar-i">متوسط</span>
-                <span class="fr-i">Intermédiaire</span>
-              </div>
-              <div class="exp-desc">
-                <span class="en-i">Some experience, solid skills</span>
-                <span class="ar-i">بعض الخبرة، مهارات جيدة</span>
-                <span class="fr-i">Expérience modérée</span>
-              </div>
+            <div class="exp-desc">
+              <span class="en-i">Highly skilled, proven track record</span>
+              <span class="ar-i">مهارات عالية وسجل حافل</span>
+              <span class="fr-i">Très qualifié, reconnu</span>
             </div>
-          </label>
-          <label class="exp-card" onclick="selectExp(this, 'expert')">
-            <input type="radio" name="experience" value="expert" />
-            <div class="exp-icon">🏆</div>
-            <div>
-              <div class="exp-title">
-                <span class="en-i">Expert</span>
-                <span class="ar-i">خبير</span>
-                <span class="fr-i">Expert</span>
-              </div>
-              <div class="exp-desc">
-                <span class="en-i">Highly skilled, proven track record</span>
-                <span class="ar-i">مهارات عالية وسجل حافل</span>
-                <span class="fr-i">Très qualifié, reconnu</span>
-              </div>
-            </div>
-          </label>
-        </div>
+          </div>
+        </label>
       </div>
+    </div>
 
+    <!-- Service Selection -->
+    <div class="input-group" style="margin-bottom: 28px;">
+      <label class="input-label">
+        <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+        <span class="en-i">Service You'll Offer</span>
+        <span class="ar-i">الخدمة التي ستقدمها</span>
+        <span class="fr-i">Service proposé</span>
+      </label>
+      <div class="service-cards" id="serviceCards">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
+    <!-- Custom Rate -->
+    <div class="input-group" style="margin-bottom: 28px;">
+      <label class="input-label">
+        <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        <span class="en-i">Your Hourly Rate</span>
+        <span class="ar-i">السعر بالساعة</span>
+        <span class="fr-i">Votre taux horaire</span>
+      </label>
+      <p class="input-hint">
+        <span class="en-i">We've set a suggested rate based on your service and experience. Edit it if you have your own rate in mind.</span>
+        <span class="ar-i">لقد حددنا سعراً مقترحاً بناءً على خدمتك وخبرتك. عدّله إن كان لديك سعر خاص.</span>
+        <span class="fr-i">Tarif suggéré selon votre service et expérience. Modifiez-le si vous avez le vôtre.</span>
+      </p>
+      <div class="rate-input-wrap">
+        <span class="rate-input-prefix">$</span>
+        <input type="number" id="customRate" min="1" max="200" step="1" value="10" oninput="markRateCustom()" />
+        <span class="rate-input-suffix">/ hr</span>
+        <button type="button" class="rate-reset" id="rateReset" onclick="resetRate()" style="display:none;">
+          <span class="en-i">Reset</span>
+          <span class="ar-i">إعادة</span>
+          <span class="fr-i">Réinit.</span>
+        </button>
+      </div>
     </div>
 
     <!-- Calculate Button -->
@@ -674,43 +665,56 @@
       </div>
 
       <div class="results-grid">
-        <div class="result-card hours">
-          <div class="result-label">
-            <span class="en-i">Available Hours</span>
-            <span class="ar-i">الساعات المتاحة</span>
-            <span class="fr-i">Heures disponibles</span>
-          </div>
-          <div class="result-value" id="resHours">--</div>
-          <div class="result-unit">
-            <span class="en-i">hrs / week</span>
-            <span class="ar-i">ساعة / أسبوع</span>
-            <span class="fr-i">hrs / sem.</span>
-          </div>
-        </div>
         <div class="result-card rate">
           <div class="result-label">
-            <span class="en-i">Hourly Rate</span>
-            <span class="ar-i">السعر بالساعة</span>
-            <span class="fr-i">Taux horaire</span>
+            <span class="en-i">Hourly</span>
+            <span class="ar-i">الساعة</span>
+            <span class="fr-i">Horaire</span>
           </div>
           <div class="result-value" id="resRate">--</div>
           <div class="result-unit">USD /
-            <span class="en-i">hour</span>
-            <span class="ar-i">ساعة</span>
-            <span class="fr-i">heure</span>
+            <span class="en-i">hr</span>
+            <span class="ar-i">س</span>
+            <span class="fr-i">h</span>
           </div>
         </div>
-        <div class="result-card income">
+        <div class="result-card daily">
           <div class="result-label">
-            <span class="en-i">Weekly Income</span>
-            <span class="ar-i">الدخل الأسبوعي</span>
-            <span class="fr-i">Revenu hebdo.</span>
+            <span class="en-i">Per Day</span>
+            <span class="ar-i">يومياً</span>
+            <span class="fr-i">Par Jour</span>
+          </div>
+          <div class="result-value" id="resDaily">--</div>
+          <div class="result-unit">USD /
+            <span class="en-i">day</span>
+            <span class="ar-i">يوم</span>
+            <span class="fr-i">jour</span>
+          </div>
+        </div>
+        <div class="result-card weekly">
+          <div class="result-label">
+            <span class="en-i">Per Week</span>
+            <span class="ar-i">أسبوعياً</span>
+            <span class="fr-i">Par Sem.</span>
           </div>
           <div class="result-value" id="resWeekly">--</div>
           <div class="result-unit">USD /
             <span class="en-i">week</span>
             <span class="ar-i">أسبوع</span>
             <span class="fr-i">sem.</span>
+          </div>
+        </div>
+        <div class="result-card yearly">
+          <div class="result-label">
+            <span class="en-i">Per Year</span>
+            <span class="ar-i">سنوياً</span>
+            <span class="fr-i">Par An</span>
+          </div>
+          <div class="result-value" id="resYearly">--</div>
+          <div class="result-unit">USD /
+            <span class="en-i">year</span>
+            <span class="ar-i">سنة</span>
+            <span class="fr-i">an</span>
           </div>
         </div>
       </div>
@@ -785,10 +789,19 @@
 
   /* ── Service names by language ── */
   const SERVICE_NAMES = {
-    en: { tutoring: 'Tutoring', babysitting: 'Babysitting & Nannying', sportscoach: 'Sports Coach & Fitness Trainer', musicart: 'Music & Art Instructor', therapist: 'Home-Based Therapist', caregiver: 'Caregiver', petsitter: 'Pet Sitter', nurse: 'Nurse', beauty: 'Beauty Services' },
-    ar: { tutoring: 'دروس خصوصية', babysitting: 'رعاية أطفال ومربيات', sportscoach: 'مدرب رياضي ولياقة', musicart: 'مدرب موسيقى وفنون', therapist: 'معالج منزلي', caregiver: 'مقدم رعاية', petsitter: 'رعاية حيوانات', nurse: 'تمريض', beauty: 'خدمات تجميل' },
-    fr: { tutoring: 'Tutorat', babysitting: 'Garde d\'enfants & Nounous', sportscoach: 'Coach sportif & Fitness', musicart: 'Musique & Arts', therapist: 'Thérapeute à domicile', caregiver: 'Aide-soignant', petsitter: 'Garde d\'animaux', nurse: 'Infirmier(ère)', beauty: 'Services beauté' }
+    en: { tutoring: 'Tutoring', babysitting: 'Babysitting & Nannying', sportscoach: 'Sports & Fitness', musicart: 'Music & Art', therapist: 'Home Therapist', caregiver: 'Caregiver', petsitter: 'Pet Sitter', nurse: 'Nurse', beauty: 'Beauty Services' },
+    ar: { tutoring: 'دروس خصوصية', babysitting: 'رعاية أطفال', sportscoach: 'رياضة ولياقة', musicart: 'موسيقى وفنون', therapist: 'معالج منزلي', caregiver: 'مقدم رعاية', petsitter: 'رعاية حيوانات', nurse: 'تمريض', beauty: 'خدمات تجميل' },
+    fr: { tutoring: 'Tutorat', babysitting: 'Garde d\'enfants', sportscoach: 'Sport & Fitness', musicart: 'Musique & Arts', therapist: 'Thérapeute', caregiver: 'Aide-soignant', petsitter: 'Garde d\'animaux', nurse: 'Infirmier(ère)', beauty: 'Services beauté' }
   };
+
+  /* ── Service emojis ── */
+  const SERVICE_EMOJIS = {
+    tutoring: '🎓', babysitting: '👶', sportscoach: '💪', musicart: '🎨',
+    therapist: '🧘', caregiver: '🤝', petsitter: '🐾', nurse: '🩺', beauty: '💅'
+  };
+
+  /* ── Order services are displayed ── */
+  const SERVICE_ORDER = ['tutoring', 'babysitting', 'sportscoach', 'musicart', 'therapist', 'caregiver', 'nurse', 'beauty', 'petsitter'];
 
   /* ── Motivation messages ── */
   const MOTIVATIONS = {
@@ -815,16 +828,54 @@
     ]
   };
 
-  /* ── Populate select options based on language ── */
-  function populateSelect() {
+  /* ── State ── */
+  let selectedService = 'tutoring';
+  let rateCustomized = false;
+
+  /* ── Get mid-range rate for default ── */
+  function getDefaultRate(service, experience) {
+    const [low, high] = RATES[service][experience];
+    return Math.round((low + high) / 2);
+  }
+
+  /* ── Populate service cards ── */
+  function populateServiceCards() {
     const lang = document.documentElement.getAttribute('data-lang') || 'en';
-    const sel = document.getElementById('serviceType');
-    const currentVal = sel.value;
+    const experience = document.querySelector('input[name="experience"]:checked').value;
     const names = SERVICE_NAMES[lang];
-    sel.querySelectorAll('option').forEach(opt => {
-      opt.textContent = names[opt.value] || opt.value;
+    const container = document.getElementById('serviceCards');
+    container.innerHTML = '';
+
+    SERVICE_ORDER.forEach(key => {
+      const [low, high] = RATES[key][experience];
+      const card = document.createElement('label');
+      card.className = 'service-card' + (key === selectedService ? ' active' : '');
+      card.onclick = () => selectService(key);
+      card.innerHTML = `
+        <input type="radio" name="service" value="${key}" ${key === selectedService ? 'checked' : ''} />
+        <div class="service-emoji">${SERVICE_EMOJIS[key]}</div>
+        <div class="service-info">
+          <div class="service-name">${names[key]}</div>
+          <div class="service-rate">$${low}–$${high}/hr</div>
+        </div>
+        <div class="service-check"></div>
+      `;
+      container.appendChild(card);
     });
-    sel.value = currentVal;
+  }
+
+  /* ── Service selection ── */
+  function selectService(key) {
+    selectedService = key;
+    document.querySelectorAll('.service-card').forEach(c => c.classList.remove('active'));
+    const active = Array.from(document.querySelectorAll('.service-card')).find(c =>
+      c.querySelector('input').value === key
+    );
+    if (active) active.classList.add('active');
+    // Reset custom rate to new service's default
+    if (!rateCustomized) {
+      resetRateSilent();
+    }
   }
 
   /* ── Language Toggle ── */
@@ -836,17 +887,7 @@
     document.getElementById('btn-en').classList.toggle('active', lang === 'en');
     document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
     document.getElementById('btn-ar').classList.toggle('active', lang === 'ar');
-    populateSelect();
-  }
-
-  /* ── Path Toggle ── */
-  let currentPath = 'schedule';
-  function setPath(path) {
-    currentPath = path;
-    document.getElementById('pathScheduleBtn').classList.toggle('active', path === 'schedule');
-    document.getElementById('pathDirectBtn').classList.toggle('active', path === 'direct');
-    document.getElementById('pathSchedule').classList.toggle('active', path === 'schedule');
-    document.getElementById('pathDirect').classList.toggle('active', path === 'direct');
+    populateServiceCards();
   }
 
   /* ── Slider display ── */
@@ -859,63 +900,70 @@
     document.querySelectorAll('.exp-card').forEach(c => c.classList.remove('active'));
     card.classList.add('active');
     card.querySelector('input').checked = true;
+    // Refresh service cards with new rates
+    populateServiceCards();
+    // Reset rate to new default
+    if (!rateCustomized) {
+      resetRateSilent();
+    }
+  }
+
+  /* ── Custom rate handling ── */
+  function markRateCustom() {
+    rateCustomized = true;
+    document.getElementById('rateReset').style.display = 'inline-block';
+  }
+
+  function resetRate() {
+    rateCustomized = false;
+    resetRateSilent();
+    document.getElementById('rateReset').style.display = 'none';
+  }
+
+  function resetRateSilent() {
+    const experience = document.querySelector('input[name="experience"]:checked').value;
+    document.getElementById('customRate').value = getDefaultRate(selectedService, experience);
+    document.getElementById('rateReset').style.display = 'none';
   }
 
   /* ── Main Calculation ── */
   function calculate() {
-    const service    = document.getElementById('serviceType').value;
-    const experience = document.querySelector('input[name="experience"]:checked').value;
-    const lang       = document.documentElement.getAttribute('data-lang') || 'en';
+    const experience  = document.querySelector('input[name="experience"]:checked').value;
+    const lang        = document.documentElement.getAttribute('data-lang') || 'en';
+    const weeklyHrs   = parseInt(document.getElementById('weeklyHours').value);
+    const rate        = parseFloat(document.getElementById('customRate').value) || 0;
 
-    let workableHrs;
-    if (currentPath === 'schedule') {
-      const collegeHrs = parseInt(document.getElementById('collegeHours').value);
-      const studyHrs   = parseInt(document.getElementById('studyHours').value);
-      const totalWeekHrs = 168;
-      const sleepHrs = 56;       // 8 hrs/day
-      const personalHrs = 21;    // 3 hrs/day
-      const freeHrs = totalWeekHrs - sleepHrs - personalHrs - collegeHrs - studyHrs;
-      workableHrs = Math.max(0, freeHrs);
-    } else {
-      workableHrs = parseInt(document.getElementById('directHours').value);
-    }
-
-    // Get rate range
-    const [rateLow, rateHigh] = RATES[service][experience];
-
-    // Weekly income
-    const weeklyLow  = workableHrs * rateLow;
-    const weeklyHigh = workableHrs * rateHigh;
-
-    // Monthly income (4.33 weeks/month)
-    const monthlyLow  = Math.round(weeklyLow * 4.33);
-    const monthlyHigh = Math.round(weeklyHigh * 4.33);
+    // Earnings
+    const weekly  = Math.round(weeklyHrs * rate);
+    const daily   = Math.round(weekly / 5);           // avg over 5 working days
+    const monthly = Math.round(weekly * 4.33);        // 4.33 weeks/month
+    const yearly  = Math.round(weekly * 52);          // 52 weeks/year
 
     // Update results
-    document.getElementById('resHours').textContent = workableHrs;
-    document.getElementById('resRate').textContent = '$' + rateLow + ' – $' + rateHigh;
-    document.getElementById('resWeekly').textContent = '$' + weeklyLow.toLocaleString() + ' – $' + weeklyHigh.toLocaleString();
-    document.getElementById('resMonthly').textContent = '$' + monthlyLow.toLocaleString() + ' – $' + monthlyHigh.toLocaleString();
+    document.getElementById('resRate').textContent  = '$' + rate.toLocaleString();
+    document.getElementById('resDaily').textContent  = '$' + daily.toLocaleString();
+    document.getElementById('resWeekly').textContent = '$' + weekly.toLocaleString();
+    document.getElementById('resYearly').textContent = '$' + yearly.toLocaleString();
+    document.getElementById('resMonthly').textContent = '$' + monthly.toLocaleString();
 
-    // Income bar — scale relative to max possible ($2,200)
-    const maxPossible = 2200;
-    const barPct = Math.min((monthlyHigh / maxPossible) * 100, 100);
+    // Income bar — scale relative to $5,000/month "goal"
+    const maxPossible = 5000;
+    const barPct = Math.min((monthly / maxPossible) * 100, 100);
     document.getElementById('incomeBar').style.width = barPct + '%';
-    document.getElementById('barLow').textContent = '$' + monthlyLow.toLocaleString();
-    document.getElementById('barHigh').textContent = '$' + monthlyHigh.toLocaleString();
+    document.getElementById('barLow').textContent = '$0';
+    document.getElementById('barHigh').textContent = '$' + monthly.toLocaleString();
 
     // Motivation message
     const msgs = MOTIVATIONS[lang];
     let motMsg = msgs[0].msg;
     for (const m of msgs) {
-      if (monthlyHigh >= m.min) motMsg = m.msg;
+      if (monthly >= m.min) motMsg = m.msg;
     }
     document.getElementById('motText').textContent = motMsg;
 
     // Show results with animation
     const results = document.getElementById('results');
     results.classList.remove('show');
-    // Force reflow to restart animation
     void results.offsetWidth;
     results.classList.add('show');
 
@@ -926,7 +974,8 @@
   }
 
   /* ── Init ── */
-  populateSelect();
+  populateServiceCards();
+  resetRateSilent();
 </script>
 
 </body>

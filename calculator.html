@@ -875,7 +875,11 @@
      numbers to jump while the user is interacting with the calculator. */
   async function refreshRatesInBackground() {
     try {
-      const res = await fetch(RATES_CSV_URL, { cache: 'no-cache' });
+      // Cachebuster: Google Sheets CSV is aggressively cached by Google's CDN
+      // and shared browser HTTP cache. Appending a unique query param forces
+      // a fresh response every time so edits in the sheet propagate reliably.
+      const url = RATES_CSV_URL + '&_cb=' + Date.now();
+      const res = await fetch(url, { cache: 'no-store' });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const text = await res.text();
       const fresh = parseRatesFromCSV(text);
@@ -893,6 +897,16 @@
       console.warn('[Servi] Background rates refresh failed.', err);
     }
   }
+
+  /* Manual escape hatch for testing / troubleshooting.
+     Open browser console and call: serviClearRatesCache()
+     Then refresh. Useful if a stale cache ever gets stuck. */
+  window.serviClearRatesCache = function () {
+    try {
+      localStorage.removeItem('servi_rates_cache');
+      console.log('[Servi] Rates cache cleared. Refresh the page to re-fetch.');
+    } catch (e) {}
+  };
 
   function ratesChanged(a, b) {
     for (const k of Object.keys(b)) {

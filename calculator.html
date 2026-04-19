@@ -155,11 +155,11 @@
     .input-group.full-width { grid-column: 1 / -1; }
 
     .input-label {
-      font-size: 14px; font-weight: 700; color: var(--navy);
-      display: flex; align-items: center; gap: 8px;
+      font-size: 18px; font-weight: 800; color: var(--navy);
+      display: flex; align-items: center; gap: 10px;
     }
     .input-label .label-icon {
-      width: 20px; height: 20px; color: var(--teal);
+      width: 22px; height: 22px; color: var(--teal);
     }
     .input-hint {
       font-size: 12px; color: var(--text-light); font-weight: 500;
@@ -224,21 +224,22 @@
 
     /* Rate Override Button + Input */
     .rate-toggle-btn {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 10px 18px; border-radius: 24px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 9px 16px; border-radius: 20px;
       background: var(--bg-light); border: 1.5px dashed var(--border);
-      font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 700;
+      font-family: 'Cairo', sans-serif; font-size: 12px; font-weight: 700;
       color: var(--text-mid); cursor: pointer; transition: all .2s;
+      max-width: 280px;
     }
     .rate-toggle-btn:hover { border-color: var(--teal); color: var(--teal); background: rgba(212,84,30,.04); }
-    .rate-toggle-btn svg { width: 14px; height: 14px; }
+    .rate-toggle-btn svg { width: 13px; height: 13px; }
     .rate-toggle-btn.active {
       background: rgba(212,84,30,.08);
       border-color: var(--teal); border-style: solid;
       color: var(--teal);
     }
 
-    .rate-panel { display: none; margin-top: 14px; }
+    .rate-panel { display: none; margin-top: 14px; max-width: 320px; margin-left: auto; margin-right: auto; }
     .rate-panel.open { display: block; animation: fadeUp .3s ease both; }
 
     .rate-input-wrap {
@@ -524,9 +525,9 @@
     <div class="input-group" style="margin-bottom: 28px;">
       <label class="input-label">
         <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span class="en-i">Hours You Want to Freelance / Week</span>
-        <span class="ar-i">ساعات العمل الحر / أسبوع</span>
-        <span class="fr-i">Heures de freelance / sem.</span>
+        <span class="en-i">Hours per week</span>
+        <span class="ar-i">ساعات / أسبوع</span>
+        <span class="fr-i">Heures par semaine</span>
       </label>
       <p class="input-hint">
         <span class="en-i">How many hours per week can you dedicate?</span>

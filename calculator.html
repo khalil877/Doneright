@@ -746,18 +746,101 @@
 </footer>
 
 <script>
-  /* ── Rate Data (USD/hr) by service + experience ── */
+  /* ── Rate Data (USD/hr) by service + experience ──
+     Defaults are a fallback. Live rates are fetched from a published
+     Google Sheet CSV at init time; see loadRates() below. */
   const RATES = {
-    tutoring:     { beginner: [8,  13], intermediate: [15, 24], expert: [26, 45] },
-    babysitting:  { beginner: [5,   8], intermediate: [10, 14], expert: [16, 25] },
-    sportscoach:  { beginner: [10, 16], intermediate: [18, 28], expert: [32, 50] },
-    musicart:     { beginner: [8,  13], intermediate: [16, 26], expert: [30, 50] },
-    therapist:    { beginner: [12, 18], intermediate: [22, 33], expert: [37, 60] },
-    caregiver:    { beginner: [6,   9], intermediate: [11, 16], expert: [19, 28] },
-    petsitter:    { beginner: [3,   5], intermediate: [6,   8], expert: [9,  12] },
-    nurse:        { beginner: [12, 18], intermediate: [22, 33], expert: [37, 55] },
-    beauty:       { beginner: [5,   8], intermediate: [10, 14], expert: [16, 22] }
+    tutoring:     { beginner: [8,  15], intermediate: [15, 30], expert: [30, 55] },
+    babysitting:  { beginner: [5,   8], intermediate: [8,  14], expert: [14, 22] },
+    sportscoach:  { beginner: [15, 25], intermediate: [25, 45], expert: [45, 75] },
+    musicart:     { beginner: [15, 25], intermediate: [25, 45], expert: [45, 85] },
+    therapist:    { beginner: [22, 35], intermediate: [35, 60], expert: [60, 95] },
+    caregiver:    { beginner: [4,   7], intermediate: [7,  12], expert: [12, 20] },
+    petsitter:    { beginner: [5,  10], intermediate: [10, 15], expert: [15, 25] },
+    nurse:        { beginner: [5,   8], intermediate: [8,  13], expert: [13, 20] },
+    beauty:       { beginner: [10, 20], intermediate: [20, 40], expert: [40, 80] }
   };
+
+  /* ── Live rate fetching (from published Google Sheet CSV) ── */
+  const RATES_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vStY3ysCQYp5qJV1GxYvbI2EUkSDZSn9tDeba-eH22CBQl5rldYyI0bd1NzygpHEw/pub?gid=94783098&single=true&output=csv';
+
+  /* Map the "Vertical" column text in the sheet to our internal service keys */
+  const VERTICAL_TO_KEY = {
+    'Tutors': 'tutoring',
+    'Babysitters & Nannies': 'babysitting',
+    'Sports Coaches & Fitness Trainers': 'sportscoach',
+    'Music & Art Instructors': 'musicart',
+    'Home-Based Therapists': 'therapist',
+    'Caregivers': 'caregiver',
+    'Pet Sitters': 'petsitter',
+    'Nurses': 'nurse',
+    'Beauty Services': 'beauty'
+  };
+
+  /* Proper CSV parser — handles quoted fields with commas */
+  function parseCSV(text) {
+    const rows = [];
+    let row = [], cell = '', inQuotes = false, i = 0;
+    while (i < text.length) {
+      const c = text[i];
+      if (inQuotes) {
+        if (c === '"' && text[i+1] === '"') { cell += '"'; i += 2; continue; }
+        if (c === '"') { inQuotes = false; i++; continue; }
+        cell += c; i++;
+      } else {
+        if (c === '"') { inQuotes = true; i++; }
+        else if (c === ',') { row.push(cell); cell = ''; i++; }
+        else if (c === '\r') { i++; }
+        else if (c === '\n') { row.push(cell); rows.push(row); row = []; cell = ''; i++; }
+        else { cell += c; i++; }
+      }
+    }
+    if (cell !== '' || row.length > 0) { row.push(cell); rows.push(row); }
+    return rows;
+  }
+
+  /* Strip $ and commas, coerce to number */
+  function parseMoney(s) {
+    return parseFloat(String(s || '').replace(/[$,\s]/g, '')) || 0;
+  }
+
+  async function loadRates() {
+    try {
+      const res = await fetch(RATES_CSV_URL, { cache: 'no-cache' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const text = await res.text();
+      const rows = parseCSV(text);
+      // Data rows are at indices 5..13 (CSV rows 6-14, after 3 title + 2 header rows)
+      let updatedAny = false;
+      for (let i = 5; i < 14 && i < rows.length; i++) {
+        const row = rows[i];
+        if (!row || row.length < 7) continue;
+        const vertical = (row[0] || '').trim();
+        const key = VERTICAL_TO_KEY[vertical];
+        if (!key) continue;
+        const entryMin  = parseMoney(row[1]);
+        const entryMax  = parseMoney(row[2]);
+        const midMin    = parseMoney(row[3]);
+        const midMax    = parseMoney(row[4]);
+        const expertMin = parseMoney(row[5]);
+        const expertMax = parseMoney(row[6]);
+        if (entryMin && entryMax && midMin && midMax && expertMin && expertMax) {
+          RATES[key] = {
+            beginner: [entryMin, entryMax],
+            intermediate: [midMin, midMax],
+            expert: [expertMin, expertMax]
+          };
+          updatedAny = true;
+        }
+      }
+      if (updatedAny) {
+        populateServiceCards();
+        updateRatePlaceholder();
+      }
+    } catch (err) {
+      console.warn('[Servi] Could not load live rates from sheet, using local defaults.', err);
+    }
+  }
 
   /* ── Service names by language ── */
   const SERVICE_NAMES = {
@@ -968,6 +1051,7 @@
   /* ── Init ── */
   populateServiceCards();
   updateRatePlaceholder();
+  loadRates(); // Overwrites RATES with live values from the Google Sheet
 </script>
 
 </body>

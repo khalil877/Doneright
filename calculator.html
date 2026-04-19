@@ -194,13 +194,13 @@
       padding: 6px 12px;
     }
 
-    /* Service Cards */
+    /* Service Cards — compact */
     .service-cards {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
     }
     .service-card {
-      display: flex; align-items: center; gap: 14px;
-      padding: 14px 16px; border-radius: 14px;
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: 12px;
       border: 2px solid var(--border); background: var(--bg-light);
       cursor: pointer; transition: all .2s;
       position: relative;
@@ -212,30 +212,36 @@
       box-shadow: 0 4px 16px rgba(212,84,30,.15);
     }
     .service-card input { display: none; }
-    .service-emoji { font-size: 24px; flex-shrink: 0; }
+    .service-emoji { font-size: 20px; flex-shrink: 0; }
     .service-info { flex: 1; min-width: 0; }
     .service-name {
-      font-size: 14px; font-weight: 800; color: var(--navy);
-      line-height: 1.2; margin-bottom: 2px;
+      font-size: 12.5px; font-weight: 800; color: var(--navy);
+      line-height: 1.2; margin-bottom: 1px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .service-rate {
-      font-size: 12px; font-weight: 700; color: var(--teal);
-    }
-    .service-check {
-      width: 18px; height: 18px; border-radius: 50%;
-      border: 2px solid var(--border); flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      transition: all .2s;
-    }
-    .service-card.active .service-check {
-      border-color: var(--teal);
-      background: var(--teal);
-    }
-    .service-card.active .service-check::after {
-      content: ''; width: 8px; height: 8px; border-radius: 50%; background: #fff;
+      font-size: 11px; font-weight: 700; color: var(--teal);
     }
 
-    /* Custom Rate Input */
+    /* Rate Override Button + Input */
+    .rate-toggle-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border-radius: 24px;
+      background: var(--bg-light); border: 1.5px dashed var(--border);
+      font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 700;
+      color: var(--text-mid); cursor: pointer; transition: all .2s;
+    }
+    .rate-toggle-btn:hover { border-color: var(--teal); color: var(--teal); background: rgba(212,84,30,.04); }
+    .rate-toggle-btn svg { width: 14px; height: 14px; }
+    .rate-toggle-btn.active {
+      background: rgba(212,84,30,.08);
+      border-color: var(--teal); border-style: solid;
+      color: var(--teal);
+    }
+
+    .rate-panel { display: none; margin-top: 14px; }
+    .rate-panel.open { display: block; animation: fadeUp .3s ease both; }
+
     .rate-input-wrap {
       display: flex; align-items: center; gap: 12px;
       padding: 14px 16px; border-radius: 14px;
@@ -258,12 +264,6 @@
     .rate-input-suffix {
       font-size: 13px; font-weight: 600; color: var(--text-light);
     }
-    .rate-reset {
-      background: none; border: none; cursor: pointer; padding: 4px 8px;
-      font-family: 'Cairo', sans-serif; font-size: 12px; font-weight: 700;
-      color: var(--text-mid); border-radius: 8px; transition: all .2s;
-    }
-    .rate-reset:hover { background: rgba(0,0,0,.05); color: var(--teal); }
 
     /* Experience Cards */
     .exp-cards {
@@ -316,35 +316,30 @@
     }
 
     .results-grid {
-      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px;
       margin-bottom: 24px;
     }
 
     .result-card {
-      padding: 20px 12px; border-radius: var(--radius);
+      padding: 22px 14px; border-radius: var(--radius);
       text-align: center; position: relative; overflow: hidden;
       animation: countUp .4s ease both;
     }
     .result-card:nth-child(1) { animation-delay: .1s; }
     .result-card:nth-child(2) { animation-delay: .15s; }
     .result-card:nth-child(3) { animation-delay: .2s; }
-    .result-card:nth-child(4) { animation-delay: .25s; }
 
     .result-card.rate {
       background: linear-gradient(135deg, #EDF8FB, #E0F2F6);
       border: 1px solid rgba(45,74,122,.15);
     }
-    .result-card.daily {
+    .result-card.weekly {
       background: linear-gradient(135deg, #FFF4EC, #FFE8D6);
       border: 1px solid rgba(212,84,30,.15);
     }
-    .result-card.weekly {
+    .result-card.yearly {
       background: linear-gradient(135deg, #FFF8ED, #FFF0D4);
       border: 1px solid rgba(240,160,48,.2);
-    }
-    .result-card.yearly {
-      background: linear-gradient(135deg, #F0F4FF, #E0E9FF);
-      border: 1px solid rgba(45,74,122,.2);
     }
 
     .result-label {
@@ -352,17 +347,15 @@
       letter-spacing: 1px; margin-bottom: 6px;
     }
     .result-card.rate .result-label { color: var(--navy); }
-    .result-card.daily .result-label { color: var(--teal); }
-    .result-card.weekly .result-label { color: var(--gold-dark); }
-    .result-card.yearly .result-label { color: var(--navy); }
+    .result-card.weekly .result-label { color: var(--teal); }
+    .result-card.yearly .result-label { color: var(--gold-dark); }
 
     .result-value {
-      font-size: clamp(18px, 2.6vw, 24px); font-weight: 900; line-height: 1.2;
+      font-size: clamp(20px, 3vw, 26px); font-weight: 900; line-height: 1.2;
     }
     .result-card.rate .result-value { color: var(--navy-dark); }
-    .result-card.daily .result-value { color: var(--teal); }
-    .result-card.weekly .result-value { color: var(--gold-dark); }
-    .result-card.yearly .result-value { color: var(--navy-dark); }
+    .result-card.weekly .result-value { color: var(--teal); }
+    .result-card.yearly .result-value { color: var(--gold-dark); }
 
     .result-unit {
       font-size: 12px; font-weight: 600; color: var(--text-light); margin-top: 4px;
@@ -468,8 +461,8 @@
       .exp-cards { grid-template-columns: 1fr; gap: 8px; }
       .exp-card { display: flex; align-items: center; gap: 12px; text-align: left; padding: 14px 16px; }
       .exp-icon { margin-bottom: 0; font-size: 24px; }
-      .service-cards { grid-template-columns: 1fr; }
-      .results-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .service-cards { grid-template-columns: repeat(2, 1fr); }
+      .results-grid { grid-template-columns: 1fr; gap: 10px; }
       .income-hero { padding: 24px 16px; }
       .nav-back span { display: none; }
     }
@@ -547,6 +540,19 @@
       </div>
     </div>
 
+    <!-- Service Selection -->
+    <div class="input-group" style="margin-bottom: 28px;">
+      <label class="input-label">
+        <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+        <span class="en-i">Service You'll Offer</span>
+        <span class="ar-i">الخدمة التي ستقدمها</span>
+        <span class="fr-i">Service proposé</span>
+      </label>
+      <div class="service-cards" id="serviceCards">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+
     <!-- Experience Level -->
     <div class="input-group" style="margin-bottom: 28px;">
       <label class="input-label">
@@ -607,41 +613,20 @@
       </div>
     </div>
 
-    <!-- Service Selection -->
-    <div class="input-group" style="margin-bottom: 28px;">
-      <label class="input-label">
-        <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-        <span class="en-i">Service You'll Offer</span>
-        <span class="ar-i">الخدمة التي ستقدمها</span>
-        <span class="fr-i">Service proposé</span>
-      </label>
-      <div class="service-cards" id="serviceCards">
-        <!-- Populated by JS -->
-      </div>
-    </div>
-
-    <!-- Custom Rate -->
-    <div class="input-group" style="margin-bottom: 28px;">
-      <label class="input-label">
-        <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-        <span class="en-i">Your Hourly Rate</span>
-        <span class="ar-i">السعر بالساعة</span>
-        <span class="fr-i">Votre taux horaire</span>
-      </label>
-      <p class="input-hint">
-        <span class="en-i">We've set a suggested rate based on your service and experience. Edit it if you have your own rate in mind.</span>
-        <span class="ar-i">لقد حددنا سعراً مقترحاً بناءً على خدمتك وخبرتك. عدّله إن كان لديك سعر خاص.</span>
-        <span class="fr-i">Tarif suggéré selon votre service et expérience. Modifiez-le si vous avez le vôtre.</span>
-      </p>
-      <div class="rate-input-wrap">
-        <span class="rate-input-prefix">$</span>
-        <input type="number" id="customRate" min="1" max="200" step="1" value="10" oninput="markRateCustom()" />
-        <span class="rate-input-suffix">/ hr</span>
-        <button type="button" class="rate-reset" id="rateReset" onclick="resetRate()" style="display:none;">
-          <span class="en-i">Reset</span>
-          <span class="ar-i">إعادة</span>
-          <span class="fr-i">Réinit.</span>
-        </button>
+    <!-- Optional Rate Override -->
+    <div class="input-group" style="margin-bottom: 28px; text-align: center;">
+      <button type="button" class="rate-toggle-btn" id="rateToggleBtn" onclick="toggleRateOverride()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        <span class="en-i" id="rateBtnLabel">Know your rate? Use your own</span>
+        <span class="ar-i">تعرف سعرك؟ استخدم سعرك الخاص</span>
+        <span class="fr-i">Connaissez votre taux ? Utilisez le vôtre</span>
+      </button>
+      <div class="rate-panel" id="ratePanel" style="text-align:left;">
+        <div class="rate-input-wrap">
+          <span class="rate-input-prefix">$</span>
+          <input type="number" id="customRate" min="1" max="200" step="1" placeholder="15" />
+          <span class="rate-input-suffix">/ hr</span>
+        </div>
       </div>
     </div>
 
@@ -676,19 +661,6 @@
             <span class="en-i">hr</span>
             <span class="ar-i">س</span>
             <span class="fr-i">h</span>
-          </div>
-        </div>
-        <div class="result-card daily">
-          <div class="result-label">
-            <span class="en-i">Per Day</span>
-            <span class="ar-i">يومياً</span>
-            <span class="fr-i">Par Jour</span>
-          </div>
-          <div class="result-value" id="resDaily">--</div>
-          <div class="result-unit">USD /
-            <span class="en-i">day</span>
-            <span class="ar-i">يوم</span>
-            <span class="fr-i">jour</span>
           </div>
         </div>
         <div class="result-card weekly">
@@ -830,12 +802,17 @@
 
   /* ── State ── */
   let selectedService = 'tutoring';
-  let rateCustomized = false;
+  let useCustomRate = false;
 
   /* ── Get mid-range rate for default ── */
   function getDefaultRate(service, experience) {
     const [low, high] = RATES[service][experience];
     return Math.round((low + high) / 2);
+  }
+
+  /* ── Format a range for display ── */
+  function fmtRange(low, high) {
+    return '$' + low.toLocaleString() + ' – $' + high.toLocaleString();
   }
 
   /* ── Populate service cards ── */
@@ -872,10 +849,7 @@
       c.querySelector('input').value === key
     );
     if (active) active.classList.add('active');
-    // Reset custom rate to new service's default
-    if (!rateCustomized) {
-      resetRateSilent();
-    }
+    updateRatePlaceholder();
   }
 
   /* ── Language Toggle ── */
@@ -900,30 +874,33 @@
     document.querySelectorAll('.exp-card').forEach(c => c.classList.remove('active'));
     card.classList.add('active');
     card.querySelector('input').checked = true;
-    // Refresh service cards with new rates
     populateServiceCards();
-    // Reset rate to new default
-    if (!rateCustomized) {
-      resetRateSilent();
+    updateRatePlaceholder();
+  }
+
+  /* ── Rate override toggle ── */
+  function toggleRateOverride() {
+    useCustomRate = !useCustomRate;
+    const btn = document.getElementById('rateToggleBtn');
+    const panel = document.getElementById('ratePanel');
+    const label = document.getElementById('rateBtnLabel');
+    btn.classList.toggle('active', useCustomRate);
+    panel.classList.toggle('open', useCustomRate);
+    label.textContent = useCustomRate ? 'Using your own rate' : 'Know your rate? Use your own';
+    if (useCustomRate) {
+      // Pre-fill with midpoint if empty
+      const input = document.getElementById('customRate');
+      if (!input.value) {
+        const experience = document.querySelector('input[name="experience"]:checked').value;
+        input.value = getDefaultRate(selectedService, experience);
+      }
+      input.focus();
     }
   }
 
-  /* ── Custom rate handling ── */
-  function markRateCustom() {
-    rateCustomized = true;
-    document.getElementById('rateReset').style.display = 'inline-block';
-  }
-
-  function resetRate() {
-    rateCustomized = false;
-    resetRateSilent();
-    document.getElementById('rateReset').style.display = 'none';
-  }
-
-  function resetRateSilent() {
+  function updateRatePlaceholder() {
     const experience = document.querySelector('input[name="experience"]:checked').value;
-    document.getElementById('customRate').value = getDefaultRate(selectedService, experience);
-    document.getElementById('rateReset').style.display = 'none';
+    document.getElementById('customRate').placeholder = getDefaultRate(selectedService, experience);
   }
 
   /* ── Main Calculation ── */
@@ -931,33 +908,48 @@
     const experience  = document.querySelector('input[name="experience"]:checked').value;
     const lang        = document.documentElement.getAttribute('data-lang') || 'en';
     const weeklyHrs   = parseInt(document.getElementById('weeklyHours').value);
-    const rate        = parseFloat(document.getElementById('customRate').value) || 0;
+    const [rateLow, rateHigh] = RATES[selectedService][experience];
 
-    // Earnings
-    const weekly  = Math.round(weeklyHrs * rate);
-    const daily   = Math.round(weekly / 5);           // avg over 5 working days
-    const monthly = Math.round(weekly * 4.33);        // 4.33 weeks/month
-    const yearly  = Math.round(weekly * 52);          // 52 weeks/year
+    let rateDisplay, weeklyLow, weeklyHigh, monthlyLow, monthlyHigh, yearlyLow, yearlyHigh, monthlyForBar;
 
-    // Update results
-    document.getElementById('resRate').textContent  = '$' + rate.toLocaleString();
-    document.getElementById('resDaily').textContent  = '$' + daily.toLocaleString();
-    document.getElementById('resWeekly').textContent = '$' + weekly.toLocaleString();
-    document.getElementById('resYearly').textContent = '$' + yearly.toLocaleString();
-    document.getElementById('resMonthly').textContent = '$' + monthly.toLocaleString();
+    if (useCustomRate) {
+      const rate = parseFloat(document.getElementById('customRate').value) || 0;
+      const weekly  = Math.round(weeklyHrs * rate);
+      const monthly = Math.round(weekly * 4.33);
+      const yearly  = Math.round(weekly * 52);
+      rateDisplay = '$' + rate.toLocaleString();
+      document.getElementById('resWeekly').textContent = '$' + weekly.toLocaleString();
+      document.getElementById('resYearly').textContent = '$' + yearly.toLocaleString();
+      document.getElementById('resMonthly').textContent = '$' + monthly.toLocaleString();
+      monthlyForBar = monthly;
+    } else {
+      weeklyLow  = Math.round(weeklyHrs * rateLow);
+      weeklyHigh = Math.round(weeklyHrs * rateHigh);
+      monthlyLow  = Math.round(weeklyLow * 4.33);
+      monthlyHigh = Math.round(weeklyHigh * 4.33);
+      yearlyLow  = Math.round(weeklyLow * 52);
+      yearlyHigh = Math.round(weeklyHigh * 52);
+      rateDisplay = fmtRange(rateLow, rateHigh);
+      document.getElementById('resWeekly').textContent = fmtRange(weeklyLow, weeklyHigh);
+      document.getElementById('resYearly').textContent = fmtRange(yearlyLow, yearlyHigh);
+      document.getElementById('resMonthly').textContent = fmtRange(monthlyLow, monthlyHigh);
+      monthlyForBar = monthlyHigh;
+    }
+
+    document.getElementById('resRate').textContent = rateDisplay;
 
     // Income bar — scale relative to $5,000/month "goal"
     const maxPossible = 5000;
-    const barPct = Math.min((monthly / maxPossible) * 100, 100);
+    const barPct = Math.min((monthlyForBar / maxPossible) * 100, 100);
     document.getElementById('incomeBar').style.width = barPct + '%';
     document.getElementById('barLow').textContent = '$0';
-    document.getElementById('barHigh').textContent = '$' + monthly.toLocaleString();
+    document.getElementById('barHigh').textContent = '$' + monthlyForBar.toLocaleString();
 
     // Motivation message
     const msgs = MOTIVATIONS[lang];
     let motMsg = msgs[0].msg;
     for (const m of msgs) {
-      if (monthly >= m.min) motMsg = m.msg;
+      if (monthlyForBar >= m.min) motMsg = m.msg;
     }
     document.getElementById('motText').textContent = motMsg;
 
@@ -975,7 +967,7 @@
 
   /* ── Init ── */
   populateServiceCards();
-  resetRateSilent();
+  updateRatePlaceholder();
 </script>
 
 </body>

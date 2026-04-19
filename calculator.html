@@ -624,7 +624,7 @@
       <div class="rate-panel" id="ratePanel" style="text-align:left;">
         <div class="rate-input-wrap">
           <span class="rate-input-prefix">$</span>
-          <input type="number" id="customRate" min="1" max="200" step="1" placeholder="15" />
+          <input type="number" id="customRate" min="1" max="200" step="1" placeholder="15" oninput="markInteracted()" />
           <span class="rate-input-suffix">/ hr</span>
         </div>
       </div>
@@ -804,14 +804,12 @@
     return parseFloat(String(s || '').replace(/[$,\s]/g, '')) || 0;
   }
 
-  async function loadRates() {
+  /* Parse the CSV text into a RATES-shaped object. Returns null on failure. */
+  function parseRatesFromCSV(text) {
     try {
-      const res = await fetch(RATES_CSV_URL, { cache: 'no-cache' });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const text = await res.text();
       const rows = parseCSV(text);
+      const out = {};
       // Data rows are at indices 5..13 (CSV rows 6-14, after 3 title + 2 header rows)
-      let updatedAny = false;
       for (let i = 5; i < 14 && i < rows.length; i++) {
         const row = rows[i];
         if (!row || row.length < 7) continue;
@@ -825,22 +823,92 @@
         const expertMin = parseMoney(row[5]);
         const expertMax = parseMoney(row[6]);
         if (entryMin && entryMax && midMin && midMax && expertMin && expertMax) {
-          RATES[key] = {
+          out[key] = {
             beginner: [entryMin, entryMax],
             intermediate: [midMin, midMax],
             expert: [expertMin, expertMax]
           };
-          updatedAny = true;
         }
       }
-      if (updatedAny) {
+      // Need all 9 services to consider this a valid full snapshot
+      return Object.keys(out).length === 9 ? out : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /* Load cached rates from localStorage if present and recent (< 7 days). */
+  function loadCachedRates() {
+    try {
+      const raw = localStorage.getItem('servi_rates_cache');
+      if (!raw) return null;
+      const cached = JSON.parse(raw);
+      if (!cached || !cached.rates || !cached.ts) return null;
+      // Stale-while-revalidate: always use cache if it exists. (Only invalidate if very old.)
+      const ageDays = (Date.now() - cached.ts) / (1000 * 60 * 60 * 24);
+      if (ageDays > 30) return null;
+      return cached.rates;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveCachedRates(rates) {
+    try {
+      localStorage.setItem('servi_rates_cache', JSON.stringify({ rates, ts: Date.now() }));
+    } catch (e) { /* localStorage unavailable — silently ignore */ }
+  }
+
+  /* Initialize rates synchronously from cache (if any), so the first render
+     uses up-to-date numbers — no flicker between hardcoded fallback and live values. */
+  function applyCachedRatesIfAvailable() {
+    const cached = loadCachedRates();
+    if (cached) {
+      Object.keys(cached).forEach(k => { RATES[k] = cached[k]; });
+      return true;
+    }
+    return false;
+  }
+
+  /* Background refresh: fetch the sheet and update the cache for next page load.
+     Does NOT touch the live RATES object or re-render the UI — that would cause
+     numbers to jump while the user is interacting with the calculator. */
+  async function refreshRatesInBackground() {
+    try {
+      const res = await fetch(RATES_CSV_URL, { cache: 'no-cache' });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const text = await res.text();
+      const fresh = parseRatesFromCSV(text);
+      if (!fresh) return;
+      saveCachedRates(fresh);
+      // If the page hasn't been interacted with yet AND the values actually
+      // changed from what's currently displayed, safe to refresh the UI.
+      // Otherwise leave it alone — next page load will pick up the new cache.
+      if (!userHasInteracted && ratesChanged(RATES, fresh)) {
+        Object.keys(fresh).forEach(k => { RATES[k] = fresh[k]; });
         populateServiceCards();
         updateRatePlaceholder();
       }
     } catch (err) {
-      console.warn('[Servi] Could not load live rates from sheet, using local defaults.', err);
+      console.warn('[Servi] Background rates refresh failed.', err);
     }
   }
+
+  function ratesChanged(a, b) {
+    for (const k of Object.keys(b)) {
+      const ra = a[k], rb = b[k];
+      if (!ra) return true;
+      for (const tier of ['beginner', 'intermediate', 'expert']) {
+        if (ra[tier][0] !== rb[tier][0] || ra[tier][1] !== rb[tier][1]) return true;
+      }
+    }
+    return false;
+  }
+
+  /* Track whether the user has touched any control yet. Once true, we never
+     mutate RATES from a background fetch — locks the displayed numbers in. */
+  let userHasInteracted = false;
+  function markInteracted() { userHasInteracted = true; }
 
   /* ── Service names by language ── */
   const SERVICE_NAMES = {
@@ -926,6 +994,7 @@
 
   /* ── Service selection ── */
   function selectService(key) {
+    markInteracted();
     selectedService = key;
     document.querySelectorAll('.service-card').forEach(c => c.classList.remove('active'));
     const active = Array.from(document.querySelectorAll('.service-card')).find(c =>
@@ -949,11 +1018,13 @@
 
   /* ── Slider display ── */
   function updateSlider(el, valId, unit) {
+    markInteracted();
     document.getElementById(valId).textContent = el.value + ' ' + unit;
   }
 
   /* ── Experience selection ── */
   function selectExp(card, value) {
+    markInteracted();
     document.querySelectorAll('.exp-card').forEach(c => c.classList.remove('active'));
     card.classList.add('active');
     card.querySelector('input').checked = true;
@@ -963,6 +1034,7 @@
 
   /* ── Rate override toggle ── */
   function toggleRateOverride() {
+    markInteracted();
     useCustomRate = !useCustomRate;
     const btn = document.getElementById('rateToggleBtn');
     const panel = document.getElementById('ratePanel');
@@ -988,6 +1060,7 @@
 
   /* ── Main Calculation ── */
   function calculate() {
+    markInteracted();
     const experience  = document.querySelector('input[name="experience"]:checked').value;
     const lang        = document.documentElement.getAttribute('data-lang') || 'en';
     const weeklyHrs   = parseInt(document.getElementById('weeklyHours').value);
@@ -1048,10 +1121,14 @@
     }, 100);
   }
 
-  /* ── Init ── */
+  /* ── Init ──
+     Strategy: apply any cached rates synchronously before first paint, then
+     kick off a background refresh that only updates the cache (not the live
+     UI) to avoid numbers jumping while the freelancer is using the calculator. */
+  applyCachedRatesIfAvailable();
   populateServiceCards();
   updateRatePlaceholder();
-  loadRates(); // Overwrites RATES with live values from the Google Sheet
+  refreshRatesInBackground();
 </script>
 
 </body>

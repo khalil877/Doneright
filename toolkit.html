@@ -110,13 +110,14 @@
       animation: fadeUp .5s ease .1s both;
     }
     .tab-btn {
-      flex: 1; padding: 12px 14px; border-radius: 12px; border: none;
-      font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 800;
+      flex: 1; padding: 11px 8px; border-radius: 12px; border: none;
+      font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 800;
       cursor: pointer; color: var(--text-mid); background: transparent;
       transition: all .25s; text-align: center;
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+      white-space: nowrap;
     }
-    .tab-btn svg { width: 16px; height: 16px; }
+    .tab-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
     .tab-btn.active {
       background: linear-gradient(135deg, var(--teal), var(--teal-light));
       color: #fff;
@@ -196,6 +197,116 @@
     .inline-calc-btn:hover { background: var(--gold-dark); color: #fff; transform: translateY(-1px); }
     .inline-calc-btn svg { width: 12px; height: 12px; }
 
+    /* Tactical note under each script step */
+    .step-note {
+      margin-top: 14px; padding: 12px 14px;
+      background: rgba(45,74,122,.05);
+      border-left: 3px solid var(--navy);
+      border-radius: 8px;
+      font-size: 13.5px; line-height: 1.55; color: var(--text-mid);
+      font-weight: 500; font-style: italic;
+    }
+    .step-note strong {
+      color: var(--navy); font-weight: 800; font-style: normal;
+    }
+
+    /* Q&A ACCORDION */
+    .qa-section { margin-bottom: 22px; animation: fadeUp .4s ease both; }
+    .qa-section-title {
+      font-size: 12px; font-weight: 800; color: var(--teal);
+      text-transform: uppercase; letter-spacing: 1.5px;
+      margin-bottom: 10px; padding-left: 4px;
+    }
+    .qa-item {
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 14px; margin-bottom: 8px;
+      overflow: hidden; transition: all .2s;
+    }
+    .qa-item.open { border-color: rgba(212,84,30,.25); box-shadow: var(--shadow); }
+    .qa-q {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 14px 18px; cursor: pointer;
+      font-size: 14.5px; font-weight: 700; color: var(--navy);
+      background: transparent; border: none; width: 100%; text-align: left;
+      font-family: 'Cairo', sans-serif;
+    }
+    .qa-q:hover { color: var(--teal); }
+    .qa-q svg {
+      width: 18px; height: 18px; color: var(--text-light);
+      flex-shrink: 0; transition: transform .2s;
+    }
+    .qa-item.open .qa-q svg { transform: rotate(45deg); color: var(--teal); }
+    .qa-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height .3s ease;
+    }
+    .qa-item.open .qa-a { max-height: 600px; }
+    .qa-a-inner {
+      padding: 0 18px 16px 18px;
+      font-size: 14px; line-height: 1.65; color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    /* Calculator tab panel */
+    .calc-panel { text-align: center; padding: 10px 0; }
+    .calc-preview {
+      background: linear-gradient(135deg, #FFF4EC, #FFE8D6);
+      border: 1px solid rgba(212,84,30,.15);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      margin-bottom: 20px;
+      animation: fadeUp .4s ease both;
+    }
+    .calc-preview-icon {
+      width: 72px; height: 72px; margin: 0 auto 16px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 24px rgba(212,84,30,.3);
+    }
+    .calc-preview-icon svg { width: 36px; height: 36px; color: #fff; }
+    .calc-preview h2 {
+      font-size: 22px; font-weight: 900; color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .calc-preview p {
+      font-size: 14px; color: var(--text-mid); font-weight: 500;
+      line-height: 1.6; margin-bottom: 20px;
+    }
+    .calc-open-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      padding: 16px 32px; border-radius: 50px;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      color: #fff; text-decoration: none;
+      font-family: 'Cairo', sans-serif; font-size: 16px; font-weight: 800;
+      box-shadow: 0 8px 24px rgba(212,84,30,.35);
+      transition: all .2s;
+    }
+    .calc-open-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(212,84,30,.45); }
+    .calc-open-btn svg { width: 18px; height: 18px; }
+    .calc-tips {
+      text-align: left; background: #fff;
+      border-radius: 14px; padding: 18px 20px;
+      border: 1px solid var(--border);
+      animation: fadeUp .4s ease .1s both;
+    }
+    .calc-tips h3 {
+      font-size: 14px; font-weight: 800; color: var(--navy);
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .calc-tips h3 svg { width: 16px; height: 16px; color: var(--teal); }
+    .calc-tips ul { list-style: none; padding: 0; }
+    .calc-tips li {
+      font-size: 13.5px; line-height: 1.6; color: var(--text-dark);
+      padding: 6px 0 6px 22px; position: relative;
+      font-weight: 500;
+    }
+    .calc-tips li::before {
+      content: '→'; position: absolute; left: 0; top: 6px;
+      color: var(--teal); font-weight: 900;
+    }
+
     /* Big sign-up button at close step */
     .signup-btn {
       display: flex; align-items: center; justify-content: center; gap: 10px;
@@ -237,8 +348,9 @@
       .logo-text { font-size: 18px; }
       .page { padding: 76px 14px 40px; }
       .step-card { padding: 18px 18px 18px 24px; }
-      .tab-btn { font-size: 13px; padding: 11px 8px; }
-      .tabs { top: 66px; }
+      .tab-btn { font-size: 12px; padding: 10px 4px; gap: 3px; }
+      .tab-btn svg { width: 12px; height: 12px; }
+      .tabs { top: 66px; padding: 4px; gap: 2px; }
     }
   </style>
 </head>
@@ -275,11 +387,19 @@
   <div class="tabs">
     <button class="tab-btn active" data-tab="booth" onclick="switchTab('booth')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v4H3z"/><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7"/><path d="M10 12h4"/></svg>
-      Booth Script
+      Booth
     </button>
     <button class="tab-btn" data-tab="hunt" onclick="switchTab('hunt')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/></svg>
-      Hunt Script
+      Hunt
+    </button>
+    <button class="tab-btn" data-tab="qa" onclick="switchTab('qa')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Q&amp;A
+    </button>
+    <button class="tab-btn" data-tab="calc" onclick="switchTab('calc')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
+      Calc
     </button>
   </div>
 
@@ -293,6 +413,9 @@
       <div class="step-body">
         "Thank you for visiting our booth. Have you come across our freelancers marketplace before?"
       </div>
+      <div class="step-note">
+        <strong>Tactical:</strong> Short, open, no pressure. You're just establishing rapport — doesn't matter if they've heard of us or not.
+      </div>
     </div>
 
     <div class="step-card">
@@ -303,6 +426,9 @@
       <div class="step-body">
         "Servi is a freelancer marketplace for family services in Lebanon. Families can't find reliable freelancers, and people with real skills have no structured channel to be found. Many don't even know the opportunity exists. We built the bridge: identified talents, verified profiles, app-based bookings, payment secured... And this is where <strong>YOU</strong> come in. We're pre-launch, building this right now, and we want the right freelancers to build it with us. The people who join today aren't just our supply, they're the ones shaping what Servi becomes."
       </div>
+      <div class="step-note">
+        <strong>Tactical:</strong> Deliver in 30–40 seconds. Land on "shaping what Servi becomes" with conviction — that's the line that turns a visitor into a founding member.
+      </div>
     </div>
 
     <div class="step-card">
@@ -312,6 +438,9 @@
       </div>
       <div class="step-body">
         "What do you study? And do you have a skill/service you offer as a freelancer on the side?"
+      </div>
+      <div class="step-note">
+        <strong>Tactical:</strong> This is the most important beat. <strong>Listen.</strong> Build everything that follows from their answer — tailor the calculator example and close to what they say here.
       </div>
     </div>
 
@@ -328,6 +457,9 @@
         </a>
         "pick your skill, set your hours, and see what potential income you can generate every month."
       </div>
+      <div class="step-note">
+        <strong>Tactical:</strong> Hand them the phone. <strong>Stay silent.</strong> That pause while they see their number is the most valuable moment in the whole conversation — don't fill it.
+      </div>
     </div>
 
     <div class="step-card">
@@ -343,6 +475,9 @@
         </a>
         <p class="signup-btn-note">Tap to fill it out with them on your device</p>
       </div>
+      <div class="step-note">
+        <strong>Tactical:</strong> Give them the offer, then stop talking. If they hesitate about commitment, say "It's a waitlist — zero commitment, you just get early access." Then silence again.
+      </div>
     </div>
   </div>
 
@@ -356,6 +491,9 @@
       <div class="step-body">
         "Excuse me, sorry to interrupt. Quick question, do you offer any skill or service as a freelancer? Tutoring, coaching, beauty, nursing, anything like that?"
       </div>
+      <div class="step-note">
+        <strong>Tactical:</strong> Don't block their path. If yes — continue. If no — "No worries, thanks!" and walk. <strong>Don't push.</strong>
+      </div>
     </div>
 
     <div class="step-card">
@@ -365,6 +503,9 @@
       </div>
       <div class="step-body">
         "Perfect. Servi is a freelancer marketplace for family services in Lebanon. Families can't find reliable freelancers, and people with real skills have no structured channel to be found. We built the bridge: verified profiles, app-based bookings, payment secured. We're pre-launch, building this right now, and we want the right freelancers to build it with us. The people who join today are the ones shaping what Servi becomes."
+      </div>
+      <div class="step-note">
+        <strong>Tactical:</strong> Deliver with the same conviction as at the booth. You're not interrupting their day — you're offering them something real.
       </div>
     </div>
 
@@ -381,6 +522,9 @@
         </a>
         "pick your skill, set your hours, and see what potential income you can generate every month."
       </div>
+      <div class="step-note">
+        <strong>Tactical:</strong> Hand them the phone. <strong>Stay silent.</strong> The pause while they see their number does all the selling.
+      </div>
     </div>
 
     <div class="step-card">
@@ -396,12 +540,347 @@
         </a>
         <p class="signup-btn-note">Tap to fill it out with them on your device</p>
       </div>
+      <div class="step-note">
+        <strong>Tactical:</strong> Make the offer, then stop talking. Silence closes. If they push back, remind them it's a free waitlist, not a commitment.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ Q&A ═══════════════════════════════════════ -->
+  <div class="tab-panel" id="tab-qa">
+
+    <!-- About Servi -->
+    <div class="qa-section">
+      <div class="qa-section-title">About Servi</div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">What is Servi exactly?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">A freelancer marketplace for home and family services in Lebanon. Families find and book verified freelancers through the app.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Is the app live yet?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Pre-launch. Early registrants will be visible to families from day one.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">What areas does Servi cover?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Greater Beirut first — Beirut, Matn, Kesserwan, and Baabda — area by area. More areas will follow shortly after launch.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">How does the app work?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Families request bookings, you receive push notifications, accept or confirm, complete the session, and payment is released to your wallet. You manage your own availability.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Is there a rating system?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Yes. Your rating affects visibility in search results — better performance means more bookings.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">How many freelancers are already on the platform?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">We're in the registration phase. The freelancers joining now are the founding wave.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">How many families signed up?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Family onboarding begins at launch. There's already strong demand in our target areas.</div></div>
+      </div>
+    </div>
+
+    <!-- Registration -->
+    <div class="qa-section">
+      <div class="qa-section-title">Registration & Eligibility</div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Is registration free?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Completely free. No upfront fees, no subscriptions.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">What's needed to register?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Valid ID, standard documentation, digital verification, and any service-specific requirements (e.g. background checks for childcare).</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">How long does registration take?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Initial signup: under 3 minutes. Full verification follows and typically completes within a reasonable timeframe.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">What happens after registration?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">We contact you personally, walk you through application and onboarding, verify your profile, stay in touch until launch, and activate your account.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Can I register for multiple skills?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Yes. Each skill goes through its own verification.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">What's the minimum age?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">At least 18 years old.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Who can join?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Anyone with real skills — students, graduates, professionals. All are welcome.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">I have no experience yet — can I still join?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Everyone starts somewhere. A strong profile, good communication, and competitive pricing will get you your first bookings.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Do I need formal qualifications?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Depends on the service. Some (like nursing or therapy) require credentials; others don't.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Is training provided?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Yes — onboarding support and best practices from top earners.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Will my university find out?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Only if you tell them. Your activity on Servi is completely independent.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Is freelancing legal in Lebanon?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Yes. Freelancing is legal, and Servi is a marketplace platform arrangement.</div></div>
+      </div>
+    </div>
+
+    <!-- Earnings & Payment -->
+    <div class="qa-section">
+      <div class="qa-section-title">Earnings & Payment</div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Who sets the rates?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">You do. Within platform-suggested ranges based on your vertical, experience, and market benchmarks.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">What's the commission?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Servi takes a commission (disclosed during application). It's waived on the first sessions for our founding freelancers.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">How do I get paid?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Families pay Servi, Servi pays you. Funds sit in escrow, then go to your in-app wallet.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">When do I get paid?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Funds are released 3 days after session completion for new freelancers. Faster once you build a track record.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">What if a client doesn't pay?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Payment is secured in escrow before the session starts. If a booking isn't confirmed (i.e. paid), you don't need to show up.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Do I need to declare taxes?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Commission is deducted at source. We recommend staying compliant with local regulations.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">What if Servi shuts down?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Wallet funds are returned. But we're building this to last — Servi is a serious venture with serious people behind it.</div></div>
+      </div>
+    </div>
+
+    <!-- Working on Servi -->
+    <div class="qa-section">
+      <div class="qa-section-title">Working on Servi</div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Is there a fixed schedule?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">No. You set your own availability and can update it anytime.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Is there a minimum number of hours?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">None. Work as much or as little as you want.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Can I pause my account?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Yes, anytime — no penalty.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Can I decline a booking?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Yes, within the allowed response window. Just don't cancel after confirming — that hurts your rating.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Do I have to leave my existing clients?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">No. They remain yours. Servi is an additional channel, not exclusive.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Can I take Servi clients off-platform later?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">All bookings must stay on-platform to keep your payment protection and rating.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">How do I communicate with clients?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">All communication is through the in-app chat — protects both sides and keeps a record.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Do I need a car?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Depends on your service. Our proximity algorithm prioritizes nearby families, so you're not traveling far.</div></div>
+      </div>
+    </div>
+
+    <!-- Safety -->
+    <div class="qa-section">
+      <div class="qa-section-title">Safety & Trust</div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">Are families verified?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Yes — that's Servi's responsibility.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">What if I feel unsafe during a job?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">You can always leave. Use the in-app safety reporting to flag it in real time.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">What if a family cancels on me?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">There will be terms against cancellations to protect your time.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">What info do I see before accepting a booking?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Verified profile, request details, and location area. Full details appear after you confirm.</div></div>
+      </div>
+
+      <div class="qa-item">
+        <button class="qa-q" onclick="toggleQA(this)">What if I get an unfair review?
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+        <div class="qa-a"><div class="qa-a-inner">Flag it through the app. Our team reviews it and removes reviews that violate our guidelines.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CALCULATOR TAB ════════════════════════════ -->
+  <div class="tab-panel" id="tab-calc">
+    <div class="calc-panel">
+      <div class="calc-preview">
+        <div class="calc-preview-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="16" y2="18"/></svg>
+        </div>
+        <h2>Earnings Calculator</h2>
+        <p>Show them their number. Hourly, weekly, monthly, and yearly potential based on their skill and hours.</p>
+        <a href="calculator.html" target="_blank" rel="noopener" class="calc-open-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Open Calculator
+        </a>
+      </div>
+
+      <div class="calc-tips">
+        <h3>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4M12 2a7 7 0 017 7c0 3-2 5-3 6-1 .67-1 1.33-1 2H9c0-.67 0-1.33-1-2-1-1-3-3-3-6a7 7 0 017-7z"/></svg>
+          How to use it at the booth
+        </h3>
+        <ul>
+          <li>Ask their skill and hours first. Listen.</li>
+          <li>Type it in while they watch. Let them see the live number climb.</li>
+          <li>Then hand them the phone — and stay silent.</li>
+          <li>Let them tap around. The number does the selling.</li>
+        </ul>
+      </div>
     </div>
   </div>
 
   <div class="footer-note">
     <p>
-      <strong>Tip:</strong> Keep your phone open to the calculator while you talk. Show them the number. That's where conviction lives.
+      <strong>Tip:</strong> Keep the calculator ready before you start. Show them the number. That's where conviction lives.
     </p>
   </div>
 
@@ -417,6 +896,11 @@
     });
     // Scroll tabs to top so user sees script from start
     window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+
+  function toggleQA(btn) {
+    const item = btn.closest('.qa-item');
+    item.classList.toggle('open');
   }
 </script>
 

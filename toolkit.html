@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Servi Job Fair Toolkit – Scripts and tools for the team." />
+  <title>Servi | Job Fair Toolkit</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:       #2D4A7A;
+      --navy-dark:  #1E3558;
+      --teal:       #D4541E;
+      --teal-light: #E8722E;
+      --gold:       #F0A030;
+      --gold-dark:  #C8841A;
+      --bg-light:   #FFF8F3;
+      --text-dark:  #2D2D3A;
+      --text-mid:   #5A6577;
+      --text-light: #8B95A5;
+      --border:     #F0E6DC;
+      --shadow:     0 4px 24px rgba(180,140,100,.10);
+      --shadow-lg:  0 12px 48px rgba(180,140,100,.15);
+      --radius:     20px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Cairo', sans-serif;
+      color: var(--text-dark);
+      background: linear-gradient(170deg, #FFF8F3 0%, #FFF0E6 30%, #E6F4F8 70%, #EDF8FB 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ───────────────────────────────────── */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 12px 20px;
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(226,232,240,.6);
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; flex-shrink: 0; }
+    .logo-img { width: 36px; height: 36px; object-fit: contain; }
+    .logo-text { font-size: 20px; font-weight: 900; color: #000; letter-spacing: -.5px; }
+    .logo-text em { font-style: normal; color: #000; }
+    .nav-right { display: flex; align-items: center; gap: 8px; }
+    .nav-btn {
+      padding: 9px 14px; border-radius: 20px;
+      font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 700;
+      text-decoration: none; transition: all .2s;
+      display: inline-flex; align-items: center; gap: 6px;
+      white-space: nowrap;
+    }
+    .nav-btn svg { width: 14px; height: 14px; }
+    .nav-btn.ghost { color: var(--text-mid); background: var(--bg-light); }
+    .nav-btn.ghost:hover { color: var(--navy); background: #fff; }
+    .nav-btn.primary {
+      background: var(--teal); color: #fff;
+      box-shadow: 0 4px 14px rgba(212,84,30,.25);
+    }
+    .nav-btn.primary:hover { background: var(--teal-light); transform: translateY(-1px); }
+
+    /* ── PAGE ─────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 80px 20px 60px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 28px;
+      animation: fadeUp .5s ease both;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(212,84,30,.1); border: 1px solid rgba(212,84,30,.2);
+      color: var(--teal); padding: 6px 14px; border-radius: 20px;
+      font-size: 11px; font-weight: 800; letter-spacing: 1.2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .page-header h1 {
+      font-size: clamp(24px, 5vw, 34px); font-weight: 900; color: var(--text-dark);
+      line-height: 1.15; margin-bottom: 8px;
+    }
+    .page-header p {
+      font-size: 14px; color: var(--text-mid); font-weight: 500; line-height: 1.6;
+    }
+
+    /* ── TABS ──────────────────────────────────────── */
+    .tabs {
+      display: flex; background: #fff; border-radius: 16px;
+      padding: 5px; margin-bottom: 20px;
+      box-shadow: var(--shadow); border: 1px solid var(--border);
+      position: sticky; top: 74px; z-index: 50;
+      animation: fadeUp .5s ease .1s both;
+    }
+    .tab-btn {
+      flex: 1; padding: 12px 14px; border-radius: 12px; border: none;
+      font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 800;
+      cursor: pointer; color: var(--text-mid); background: transparent;
+      transition: all .25s; text-align: center;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .tab-btn svg { width: 16px; height: 16px; }
+    .tab-btn.active {
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(212,84,30,.3);
+    }
+    .tab-btn:hover:not(.active) { color: var(--navy); }
+
+    /* ── TAB PANELS ────────────────────────────────── */
+    .tab-panel { display: none; animation: fadeIn .3s ease both; }
+    .tab-panel.active { display: block; }
+
+    /* ── STEP CARDS ────────────────────────────────── */
+    .step-card {
+      background: #fff;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: 22px 22px 22px 28px;
+      margin-bottom: 14px;
+      position: relative; overflow: hidden;
+      animation: fadeUp .4s ease both;
+    }
+    .step-card:nth-child(1) { animation-delay: .05s; }
+    .step-card:nth-child(2) { animation-delay: .1s; }
+    .step-card:nth-child(3) { animation-delay: .15s; }
+    .step-card:nth-child(4) { animation-delay: .2s; }
+    .step-card:nth-child(5) { animation-delay: .25s; }
+
+    .step-card::before {
+      content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 5px;
+      background: linear-gradient(180deg, var(--teal), var(--gold));
+    }
+    .step-head {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+    }
+    .step-num {
+      font-size: 13px; font-weight: 900; color: #fff;
+      background: linear-gradient(135deg, var(--teal), var(--teal-light));
+      width: 32px; height: 32px; border-radius: 10px;
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 2px 8px rgba(212,84,30,.3);
+    }
+    .step-title {
+      font-size: 16px; font-weight: 800; color: var(--navy);
+      letter-spacing: .2px;
+    }
+    .step-body {
+      font-size: 15.5px; line-height: 1.65; color: var(--text-dark);
+      font-weight: 500;
+    }
+    .step-body em {
+      font-style: italic; color: var(--text-mid);
+    }
+    .step-body .stage {
+      display: inline-block;
+      background: rgba(240,160,48,.15); color: var(--gold-dark);
+      padding: 3px 10px; border-radius: 8px;
+      font-size: 13px; font-weight: 800; font-style: normal;
+      margin: 0 2px;
+    }
+    .step-body .stage a {
+      color: inherit; text-decoration: none;
+      display: inline-flex; align-items: center; gap: 4px;
+    }
+    .step-body .stage svg { width: 12px; height: 12px; }
+
+    /* Inline calculator button */
+    .inline-calc-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: 20px;
+      background: var(--gold); color: var(--navy-dark);
+      font-family: 'Cairo', sans-serif; font-size: 13px; font-weight: 800;
+      text-decoration: none; transition: all .2s;
+      box-shadow: 0 2px 8px rgba(240,160,48,.3);
+    }
+    .inline-calc-btn:hover { background: var(--gold-dark); color: #fff; transform: translateY(-1px); }
+    .inline-calc-btn svg { width: 12px; height: 12px; }
+
+    /* ── FOOTER NOTE ────────────────────────────────── */
+    .footer-note {
+      margin-top: 28px; padding: 16px 20px;
+      background: rgba(45,74,122,.06);
+      border-radius: 14px;
+      border: 1px dashed rgba(45,74,122,.2);
+      text-align: center;
+      animation: fadeUp .4s ease .3s both;
+    }
+    .footer-note p {
+      font-size: 13px; color: var(--text-mid); font-weight: 600;
+      line-height: 1.5;
+    }
+    .footer-note strong { color: var(--navy); }
+
+    /* ── RESPONSIVE ────────────────────────────────── */
+    @media (max-width: 500px) {
+      .nav { padding: 10px 14px; }
+      .nav-btn.ghost { padding: 8px 10px; }
+      .nav-btn.ghost span { display: none; }
+      .logo-text { font-size: 18px; }
+      .page { padding: 76px 14px 40px; }
+      .step-card { padding: 18px 18px 18px 24px; }
+      .tab-btn { font-size: 13px; padding: 11px 8px; }
+      .tabs { top: 66px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAVBAR ──────────────────────────────────── -->
+<nav class="nav">
+  <a href="forms.html" class="logo">
+    <img src="logo.png" alt="Servi" class="logo-img" />
+    <span class="logo-text">Serv<em>i</em></span>
+  </a>
+  <div class="nav-right">
+    <a href="forms.html" class="nav-btn ghost">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      <span>Hub</span>
+    </a>
+    <a href="calculator.html" class="nav-btn primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/><line x1="8" y1="18" x2="16" y2="18"/></svg>
+      Calculator
+    </a>
+  </div>
+</nav>
+
+<!-- ── PAGE ────────────────────────────────────── -->
+<div class="page">
+
+  <div class="page-header">
+    <div class="badge">For the Servi Team</div>
+    <h1>Job Fair Toolkit</h1>
+    <p>Scripts and tools for the booth. Keep it short. Keep it human.</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="booth" onclick="switchTab('booth')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v4H3z"/><path d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V7"/><path d="M10 12h4"/></svg>
+      Booth Script
+    </button>
+    <button class="tab-btn" data-tab="hunt" onclick="switchTab('hunt')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"/></svg>
+      Hunt Script
+    </button>
+  </div>
+
+  <!-- ══ BOOTH SCRIPT ══════════════════════════════ -->
+  <div class="tab-panel active" id="tab-booth">
+    <div class="step-card">
+      <div class="step-head">
+        <div class="step-num">01</div>
+        <div class="step-title">Open — when they come to you</div>
+      </div>
+      <div class="step-body">
+        "Thank you for visiting our booth. Have you come across our freelancers marketplace before?"
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head">
+        <div class="step-num">02</div>
+        <div class="step-title">What We Are</div>
+      </div>
+      <div class="step-body">
+        "Servi is a freelancer marketplace for family services in Lebanon. Families can't find reliable freelancers, and people with real skills have no structured channel to be found. Many don't even know the opportunity exists. We built the bridge: identified talents, verified profiles, app-based bookings, payment secured... And this is where <strong>YOU</strong> come in. We're pre-launch, building this right now, and we want the right freelancers to build it with us. The people who join today aren't just our supply, they're the ones shaping what Servi becomes."
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head">
+        <div class="step-num">03</div>
+        <div class="step-title">Qualify</div>
+      </div>
+      <div class="step-body">
+        "What do you study? And do you have a skill/service you offer as a freelancer on the side?"
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head">
+        <div class="step-num">04</div>
+        <div class="step-title">The Reveal</div>
+      </div>
+      <div class="step-body">
+        "This is what having Servi behind you looks like"
+        <a href="calculator.html" class="inline-calc-btn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
+          Open Calculator
+        </a>
+        "pick your skill, set your hours, and see what potential income you can generate every month."
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head">
+        <div class="step-num">05</div>
+        <div class="step-title">Close</div>
+      </div>
+      <div class="step-body">
+        "2 minutes, and your name is in the first wave. Scan this or I'll do it with you right now."
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ HUNT SCRIPT ═══════════════════════════════ -->
+  <div class="tab-panel" id="tab-hunt">
+    <div class="step-card">
+      <div class="step-head">
+        <div class="step-num">01</div>
+        <div class="step-title">Interrupt — when you approach them</div>
+      </div>
+      <div class="step-body">
+        "Excuse me, sorry to interrupt. Quick question, do you offer any skill or service as a freelancer? Tutoring, coaching, beauty, nursing, anything like that?"
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head">
+        <div class="step-num">02</div>
+        <div class="step-title">Bridge</div>
+      </div>
+      <div class="step-body">
+        "Perfect. Servi is a freelancer marketplace for family services in Lebanon. Families can't find reliable freelancers, and people with real skills have no structured channel to be found. We built the bridge: verified profiles, app-based bookings, payment secured. We're pre-launch, building this right now, and we want the right freelancers to build it with us. The people who join today are the ones shaping what Servi becomes."
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head">
+        <div class="step-num">03</div>
+        <div class="step-title">The Number</div>
+      </div>
+      <div class="step-body">
+        "This is what having Servi behind you looks like"
+        <a href="calculator.html" class="inline-calc-btn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="6" x2="16" y2="6"/></svg>
+          Open Calculator
+        </a>
+        "pick your skill, set your hours, and see what potential income you can generate every month."
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-head">
+        <div class="step-num">04</div>
+        <div class="step-title">Close</div>
+      </div>
+      <div class="step-body">
+        "2 minutes, and your name is in the first wave. Scan this or I'll do it with you right now."
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-note">
+    <p>
+      <strong>Tip:</strong> Keep your phone open to the calculator while you talk. Show them the number. That's where conviction lives.
+    </p>
+  </div>
+
+</div>
+
+<script>
+  function switchTab(name) {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.tab === name);
+    });
+    document.querySelectorAll('.tab-panel').forEach(p => {
+      p.classList.toggle('active', p.id === 'tab-' + name);
+    });
+    // Scroll tabs to top so user sees script from start
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
+</script>
+
+</body>
+</html>

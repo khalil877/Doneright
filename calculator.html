@@ -553,66 +553,6 @@
       </div>
     </div>
 
-    <!-- Experience Level -->
-    <div class="input-group" style="margin-bottom: 28px;">
-      <label class="input-label">
-        <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <span class="en-i">Your Experience Level</span>
-        <span class="ar-i">مستوى خبرتك</span>
-        <span class="fr-i">Votre niveau d'expérience</span>
-      </label>
-      <div class="exp-cards">
-        <label class="exp-card active" onclick="selectExp(this, 'beginner')">
-          <input type="radio" name="experience" value="beginner" checked />
-          <div class="exp-icon">🌱</div>
-          <div>
-            <div class="exp-title">
-              <span class="en-i">Beginner</span>
-              <span class="ar-i">مبتدئ</span>
-              <span class="fr-i">Débutant</span>
-            </div>
-            <div class="exp-desc">
-              <span class="en-i">Just starting out, with some experience</span>
-              <span class="ar-i">بداية جديدة، مع بعض الخبرة</span>
-              <span class="fr-i">Débutant, avec un peu d'expérience</span>
-            </div>
-          </div>
-        </label>
-        <label class="exp-card" onclick="selectExp(this, 'intermediate')">
-          <input type="radio" name="experience" value="intermediate" />
-          <div class="exp-icon">⚡</div>
-          <div>
-            <div class="exp-title">
-              <span class="en-i">Intermediate</span>
-              <span class="ar-i">متوسط</span>
-              <span class="fr-i">Intermédiaire</span>
-            </div>
-            <div class="exp-desc">
-              <span class="en-i">Experienced with solid skills</span>
-              <span class="ar-i">ذو خبرة ومهارات جيدة</span>
-              <span class="fr-i">Expérimenté avec de solides compétences</span>
-            </div>
-          </div>
-        </label>
-        <label class="exp-card" onclick="selectExp(this, 'expert')">
-          <input type="radio" name="experience" value="expert" />
-          <div class="exp-icon">🏆</div>
-          <div>
-            <div class="exp-title">
-              <span class="en-i">Expert</span>
-              <span class="ar-i">خبير</span>
-              <span class="fr-i">Expert</span>
-            </div>
-            <div class="exp-desc">
-              <span class="en-i">Highly skilled, proven track record</span>
-              <span class="ar-i">مهارات عالية وسجل حافل</span>
-              <span class="fr-i">Très qualifié, reconnu</span>
-            </div>
-          </div>
-        </label>
-      </div>
-    </div>
-
     <!-- Optional Rate Override -->
     <div class="input-group" style="margin-bottom: 28px; text-align: center;">
       <button type="button" class="rate-toggle-btn" id="rateToggleBtn" onclick="toggleRateOverride()">
@@ -812,21 +752,19 @@
       // Data rows are at indices 5..13 (CSV rows 6-14, after 3 title + 2 header rows)
       for (let i = 5; i < 14 && i < rows.length; i++) {
         const row = rows[i];
-        if (!row || row.length < 7) continue;
+        if (!row || row.length < 3) continue;
         const vertical = (row[0] || '').trim();
         const key = VERTICAL_TO_KEY[vertical];
         if (!key) continue;
         const entryMin  = parseMoney(row[1]);
         const entryMax  = parseMoney(row[2]);
-        const midMin    = parseMoney(row[3]);
-        const midMax    = parseMoney(row[4]);
-        const expertMin = parseMoney(row[5]);
-        const expertMax = parseMoney(row[6]);
-        if (entryMin && entryMax && midMin && midMax && expertMin && expertMax) {
+        if (entryMin && entryMax) {
+          // Only the beginner range is used; mirror it into the other tiers
+          // so the rest of the app (which still references them) stays valid.
           out[key] = {
             beginner: [entryMin, entryMax],
-            intermediate: [midMin, midMax],
-            expert: [expertMin, expertMax]
+            intermediate: [entryMin, entryMax],
+            expert: [entryMin, entryMax]
           };
         }
       }
@@ -983,7 +921,7 @@
   /* ── Populate service cards ── */
   function populateServiceCards() {
     const lang = document.documentElement.getAttribute('data-lang') || 'en';
-    const experience = document.querySelector('input[name="experience"]:checked').value;
+    const experience = 'beginner';
     const names = SERVICE_NAMES[lang];
     const container = document.getElementById('serviceCards');
     container.innerHTML = '';
@@ -1036,16 +974,6 @@
     document.getElementById(valId).textContent = el.value + ' ' + unit;
   }
 
-  /* ── Experience selection ── */
-  function selectExp(card, value) {
-    markInteracted();
-    document.querySelectorAll('.exp-card').forEach(c => c.classList.remove('active'));
-    card.classList.add('active');
-    card.querySelector('input').checked = true;
-    populateServiceCards();
-    updateRatePlaceholder();
-  }
-
   /* ── Rate override toggle ── */
   function toggleRateOverride() {
     markInteracted();
@@ -1060,22 +988,20 @@
       // Pre-fill with midpoint if empty
       const input = document.getElementById('customRate');
       if (!input.value) {
-        const experience = document.querySelector('input[name="experience"]:checked').value;
-        input.value = getDefaultRate(selectedService, experience);
+        input.value = getDefaultRate(selectedService, 'beginner');
       }
       input.focus();
     }
   }
 
   function updateRatePlaceholder() {
-    const experience = document.querySelector('input[name="experience"]:checked').value;
-    document.getElementById('customRate').placeholder = getDefaultRate(selectedService, experience);
+    document.getElementById('customRate').placeholder = getDefaultRate(selectedService, 'beginner');
   }
 
   /* ── Main Calculation ── */
   function calculate() {
     markInteracted();
-    const experience  = document.querySelector('input[name="experience"]:checked').value;
+    const experience  = 'beginner';
     const lang        = document.documentElement.getAttribute('data-lang') || 'en';
     const weeklyHrs   = parseInt(document.getElementById('weeklyHours').value);
     const [rateLow, rateHigh] = RATES[selectedService][experience];

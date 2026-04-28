@@ -985,17 +985,17 @@
     panel.classList.toggle('open', useCustomRate);
     label.textContent = useCustomRate ? 'Using your own rate' : 'Know your rate? Use your own';
     if (useCustomRate) {
-      // Pre-fill with midpoint if empty
+      // Pre-fill with default if empty
       const input = document.getElementById('customRate');
       if (!input.value) {
-        input.value = getDefaultRate(selectedService, 'beginner');
+        input.value = 15;
       }
       input.focus();
     }
   }
 
   function updateRatePlaceholder() {
-    document.getElementById('customRate').placeholder = getDefaultRate(selectedService, 'beginner');
+    document.getElementById('customRate').placeholder = 15;
   }
 
   /* ── Main Calculation ── */
